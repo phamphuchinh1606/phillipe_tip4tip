@@ -1,0 +1,96 @@
+{
+  "menu": {
+    "home" : "Trang Chủ",
+    "myLead" : "Danh Sách Lead",
+    "message" : "Tin Nhắn",
+    "profile" : "Hồ Sơ",
+    "logOut" : "Đăng Xuất",
+    "refresh" : "Load Lại",
+    "titleMessage" : "Bạn có 0 tin nhắn mới",
+    "seeAllMessage" : "Xem tất cả",
+    "noMessage" : "Không có tin nhắn.",
+    "statusOnline" : "Trực tuyến",
+    "statusOffline" : "Ngoại tuyến"
+  },
+  "home": {
+    "addNewLead" : "TẠO MỚI LEAD",
+    "latestStatus" : "Tình Trạng mới nhất (5 leads cuối)",
+    "recentLeads" : "Leads mới nhất (5 Leads)",
+    "viewMoreLeads" : "Xem thêm",
+    "title": "Tip4tips Báo Cáo"
+  },
+  "menuPartner" : {
+    "title": "Chọn loại bảo hiểm",
+    "leadCreate" : "Tạo mới Lead"
+  },
+  "user" : {
+    "userName" : "Tên người dùng",
+    "fullName" : "Họ và tên",
+    "birthday" : "Ngày sinh nhật",
+    "email" : "Email",
+    "address" : "Địa chỉ",
+    "level" : "Cấp độ",
+    "gender" : "Giới tính",
+    "phone" : "Điện thoại",
+    "location" : "Khu vực",
+    "actions" : "Hành Động",
+    "avatar" : "Hình đại diện",
+    "pointTotal" : "Tổng điểm",
+    "points" : "điểm",
+    "uploadImage" : "Tải lên hình ảnh",
+    "noteUploadImage" : "Vui lòng tải lên file có loại là",
+    "backToShowUser": "Quay lại trang hiển thị",
+    "titleShow" : "Chi tiết Tipster",
+    "titleEdit" : "Chỉnh sửa Tipster"
+  },
+  "leads" : {
+    "title" : "Danh sách Lead",
+    "no" : "STT",
+    "lead" : "lead",
+    "status" : "Tình trạng",
+    "newLead" : "Tạo Mới Lead",
+    "synchronize" : "Đồng Bộ",
+    "synchronizeLead" : "Đồng bộ lead",
+    "totalLeads" : "Tổng số lead",
+    "synchronized" : "Đã đồng bộ"
+  },
+  "leadsCreate" : {
+    "title" : "Tạo Lead",
+    "fullName" : "Họ và tên",
+    "relationShip" : "Quan hệ",
+    "gender" : "Giới tính",
+    "phone" : "Điện thoại",
+    "email" : "Email",
+    "region" : "Khu vực",
+    "product" : "Sản phẩm",
+    "notes" : "Ghi chú",
+    "titleConfirmAddNewLead" : "Xác nhận tạo mới Lead",
+    "messageConfirmAddNewLead" : "Bạn có muốn tiếp tục [Tạo mới lead] ?",
+    "labelAddNewLead" : "Tạo mới lead",
+    "labelNoThank" : "Không, Cám ơn !",
+    "history" : "Lịch Sử",
+    "titleConfirmDeleteLead" : "Xác Nhận Xóa Lead",
+    "messageConfirmDeleteLead" : "Bạn có thực sự muốn xóa lead ",
+    "labelDeleteYes" : "Xóa",
+    "labelDeleteNo" : "Không"
+  },
+  "mail" : {
+    "title" : "Hộp Thư",
+    "no" : "STT",
+    "sender" : "Người gửi",
+    "subject" : "Chủ đề",
+    "titleDetail" : "Chi Tiết Mail",
+    "from" : "Từ"
+  },
+
+  "common" : {
+    "back" : "Quay lại",
+    "edit" : "Chỉnh sửa",
+    "update" : "Cập Nhật",
+    "create" : "Tạo Mới",
+    "cancel" : "Hủy bỏ",
+    "delete" : "Xóa",
+    "close" : "Đóng",
+    "noRecord" : "Không tìm thấy dữ liệu phù hợp"
+  }
+}

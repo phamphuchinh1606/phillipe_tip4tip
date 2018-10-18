@@ -1,0 +1,96 @@
+{
+  "menu": {
+    "home" : "HOME",
+    "myLead" : "MY LEADS",
+    "message" : "MESSAGES",
+    "profile" : "Profile",
+    "logOut" : "Sign out",
+    "refresh" : "Refresh",
+    "titleMessage" : "You have 0 new messages",
+    "seeAllMessage" : "See All Messages",
+    "noMessage" : "No messages.",
+    "statusOnline" : "Online",
+    "statusOffline" : "Offline"
+  },
+  "home": {
+    "addNewLead" : "ADD NEW LEAD",
+    "latestStatus" : "Latest status (20 last Leads)",
+    "recentLeads" : "Recent Leads(5 Leads)",
+    "viewMoreLeads" : "View More Leads",
+    "title": "Tip4tips Dashboard"
+  },
+  "menuPartner" : {
+    "title": "Choose an insurance type",
+    "leadCreate" : "Lead Create"
+  },
+  "user" : {
+    "userName" : "Username",
+    "fullName" : "Full name",
+    "birthday" : "Birthday",
+    "email" : "Email",
+    "address" : "Address",
+    "level" : "Level",
+    "gender" : "Gender",
+    "phone" : "Phone",
+    "location" : "Location",
+    "actions" : "Actions",
+    "avatar" : "Avatar",
+    "pointTotal" : "Points total",
+    "points" : "points",
+    "uploadImage" : "Upload image",
+    "noteUploadImage" : "Please upload a file of type",
+    "backToShowUser": "Back to show user",
+    "titleShow" : "Tipster detail",
+    "titleEdit" : "Edit Tipster"
+  },
+  "leads" : {
+    "title" : "My Leads",
+    "no" : "No",
+    "lead" : "lead",
+    "status" : "Status",
+    "newLead" : "New Lead",
+    "synchronize" : "Synchronize",
+    "synchronizeLead" : "Synchronize lead",
+    "totalLeads" : "Total leads",
+    "synchronized" : "Synchronized"
+  },
+  "leadsCreate" : {
+    "title" : "Create Lead",
+    "fullName" : "Full name",
+    "relationShip" : "RelationShip",
+    "gender" : "Gender",
+    "phone" : "Phone",
+    "email" : "Email",
+    "region" : "Region",
+    "product" : "Product",
+    "notes" : "Notes",
+    "titleConfirmAddNewLead" : "Confirm Add New Lead",
+    "messageConfirmAddNewLead" : "Do you want continue [Add New Lead] ?",
+    "labelAddNewLead" : "ADD NEW LEAD",
+    "labelNoThank" : "NO THANKS",
+    "history" : "History",
+    "titleConfirmDeleteLead" : "Confirm delete lead",
+    "messageConfirmDeleteLead" : "Do you really want to delete lead ",
+    "labelDeleteYes" : "Yes",
+    "labelDeleteNo" : "No"
+  },
+  "mail" : {
+    "title" : "Mailbox",
+    "no" : "No",
+    "sender" : "Sender",
+    "subject" : "Subject",
+    "titleDetail" : "Mail Detail",
+    "from" : "From"
+  },
+
+  "common" : {
+    "back" : "Back to list",
+    "edit" : "Edit",
+    "update" : "Update",
+    "create" : "Create",
+    "cancel" : "Cancel",
+    "delete" : "Delete",
+    "close" : "Close",
+    "noRecord" : "No matching records found"
+  }
+}

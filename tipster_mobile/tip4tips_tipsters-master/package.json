@@ -1,0 +1,41 @@
+{
+  "name": "tip4tips_tipsters",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.7.2",
+    "dangerously-set-inner-html": "^2.0.1",
+    "i18next": "^11.9.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.22.2",
+    "multi-select-react": "^0.1.8",
+    "react": "^16.5.2",
+    "react-bootstrap": "^0.32.4",
+    "react-chartjs-2": "^2.7.4",
+    "react-confirm-alert": "^2.0.6",
+    "react-dom": "^16.5.2",
+    "react-escape-html": "^1.0.5",
+    "react-full-screen": "^0.2.2",
+    "react-i18next": "^8.0.7",
+    "react-modal": "^3.6.1",
+    "react-network": "^1.0.1",
+    "react-phone-input-2": "^2.6.1",
+    "react-phone-number-input": "^2.2.11",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "1.1.4",
+    "react-select": "^2.1.0",
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

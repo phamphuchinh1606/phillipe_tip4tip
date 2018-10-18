@@ -1,0 +1,22 @@
+div.has-img{
+    font-family: 'Roboto', sans-serif;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    -webkit-transition: background-image 0.8s ease-in-out;
+    -moz-transition: background-image 0.8s ease-in-out;
+    transition: background-image 0.8s ease-in-out;
+}
+.has-img{
+    min-height: 100vh;
+}
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-right: 4px;
+    margin-top: -28px;
+    position: relative;
+    z-index: 2;
+}

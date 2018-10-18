@@ -1,0 +1,72 @@
+.box-title{
+    color:'red'
+}
+ul, ol {
+    margin: 0;
+    padding: 0;
+}
+.list-type{
+    text-align: center;
+    margin-top: 20px;
+}
+.list-type ul{
+    padding: 0;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+.list-type ul li {
+    display: inline-block;
+    list-style-type: none;
+    padding: 15px;
+    position: relative;
+}
+
+.list-type ul li span img {
+    width: 150px;
+    height: auto;
+}
+
+.list-type ul li span .menu-partner-tick img{
+    width: 40px;
+    height: 40px;
+    position:absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.partner_text {
+    font-weight: bold;
+    text-align: center;
+    color: #aebf37;
+    font-size: 20px;
+}
+
+@media (max-width: 479px) {
+    .list-type {
+        margin: 0 auto 20px auto;
+        padding: 0 10px;
+    }
+    .list-type > ul{
+        padding: 0;
+        margin: 0 -15px;
+        overflow: hidden;
+    }
+    .list-type > ul > li{
+        list-style-type: none;
+        float: left;
+        padding: 5px;
+        margin: 0;
+        width: 33%;
+    }
+    .list-type > ul > li > .partner_text{
+        font-size: 12px;
+    }
+    .list-type > ul > li > a img{
+        width: 100%;
+    }
+    .list-type ul li span .menu-partner-tick img{
+        top: 10px;
+        right: 10px;
+    }
+}

@@ -1,0 +1,75 @@
+.Gender, .Relationship{
+    width:100%;
+}
+
+tr.odd{
+    display: none;
+}
+
+.group__gender .radio-inline{
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.group__relationship .radio-inline{
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.radio-inline.gender_female{
+    margin-left: 40px;
+}
+
+.radio-inline.relationship_female{
+    margin-left: 20px;
+}
+
+.content-modal .total_leads{
+    float: left;
+}
+
+.content-modal .synchronized{
+    float: right;
+}
+
+/* style for dialog popup */
+.ReactModalPortal .ReactModal__Overlay{
+    z-index: 99999;
+    background-color: rgba(0,0,0,0.75)!important;
+}
+.ReactModal__Content{
+    max-width: 600px;
+    width: 90%;
+}
+.ReactModal__Content .header-modal h3{
+    background-color: #000;
+    color: #fff;
+    font-weight: normal;
+    font-size: 28px;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+}
+.ReactModal__Content .content-modal{
+    padding: 15px;
+}
+.ReactModal__Content .content-modal .image-loading{
+    display: block;
+    text-align: center;
+}
+.ReactModal__Content .content-modal .image-loading img{
+    width: 100px;
+    margin-top: -30px;
+}
+.ReactModal__Content .footer-modal{
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.phone-number {
+    height: 43px!important;
+    background-color: #f9ffff!important;
+    resize: none!important;
+    width: 100%!important;
+}

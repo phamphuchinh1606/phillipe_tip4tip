@@ -1,0 +1,45 @@
+1 - DEMANDE DE REVOIR LES DETAILS FONCTIONNELS (MOBILE)
+LOGIN
+
+
+- Password : add an eye icon to allow display the password
+- Keep the login/password —> done
+
+HOME PAGE
+- DISPLAY GRAPH firts
+- Display % and number
+- ADD FILTER by PRODUCT AND STATUS
+
+LEAD MANAGEMENT
+
+
+Choose Insurance type —> reduce size of icons (no need to scroll)    ok
+- PHONE: +84 by default    ok 
+- REGION by default = REGION of TIPSTER  ok 
+- PHONE + EMAIL => Only one if mandatory   ok 
+- Il faut retirer le controle du non-doubon de l’adresse email. car plusieurs dossiers (du meme lead) peuvent avoir la meme adresse email. —> DONE
+
+- Lorsqu’il y a erreur dans la saisie, alors la zone erreur doit changer de couleur et que le curseur doit se positionner bien sur le champ qui est mis en cause. 
+
+- EMAIL control: it is ok: .com123 is possible
+
+- La region (initalise par defaut) du Lead sera initialisee par la region du Tipster, mais avec confirmation du Tipster durant sa saisie de creation du Lead. >> ASK LONG
+
+- ABILITY TO CREATE ON LEAD With several PRODUCT
+
+- (v2: do later) Conditionner / personaliser le message par defaut du champs “Notes” du Lead, par 2 criteres:
+(*) Produit (texte specifique par type de produit)
+(*) Qualite du Tipster (special rappel pour les Tipsters qui ont souvent des problemes de manque d’information)
+
+- LEAD: add a field “RELATIONSHIP” : family | acquaintance | stranger    ok
+
+- AFTER ADDING a lead —> Popup to DISPLAY : [ADD NEW LEAD] [NO THANKS]    gap rat roi cho redirect
+
+- (v2 )Donner un moyen pour recopier les informations du lead pour creer une autre fiche en evitant de resaisir les donnees.
+- LEAD: FILTER by PRODUCT / STATUS + Sort by DATE
+
+- Remplacer la commande “Delete” par “Archive” —> DONE
+...
+...
+NOTIFICATION + EMAIL : focus on 2 templates : 1/ New lead (THANK YOU MESSAGE)
+2/ LEADS HAS CHANGED STATUS
