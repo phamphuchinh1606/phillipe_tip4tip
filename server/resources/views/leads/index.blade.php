@@ -29,7 +29,7 @@
         <div class="box-header">
             <h3 class="box-title">@yield('title')</h3>
             @if($isAdmin == true)
-                <a href="{{route('leads.deleteList')}}" class="btn btn-md btn-danger pull-right"><i class="fa fa-plus"></i> Leads Deleted</a>
+                <a href="{{route('leads.deleteList')}}" class="btn btn-md btn-danger pull-right"><i class="fa fa-trash"></i> Leads Deleted</a>
             @endif
             @if($createAction == true)<a href="{{route('leads.create')}}" class="btn btn-md btn-primary pull-right margin-r-5"><i class="fa fa-plus"></i> New Lead</a>@endif
         </div>

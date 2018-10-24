@@ -18,6 +18,15 @@
                 'columnDefs': [ { orderable: false, targets: [0]}]
             })
         })
+
+        $(document).ready(function(){
+            $('a.restoreLead').on('click',function(){
+                let leadName = $(this).attr('data-name');
+                let url = $(this).attr('data-url');
+                $('.popup-restore .lead-name').html(leadName);
+                $('.popup-restore .form-restore').attr('action',url);
+            })
+        });
     </script>
 @stop
 @section('body.breadcrumbs')
@@ -62,7 +71,8 @@
                             <td><span class="label-status {{Common::showColorStatus($lead->status)}}">{{ Common::showNameStatus($lead->status) }}</span></td>
                             <td class="actions text-center" style="width: 100px">
                                 <a href="{{route('leads.deleteShow', $lead->id)}}" class="btn btn-xs btn-success" title="View"><i class="fa fa-eye"></i></a>
-                                <a class="btn btn-xs btn-info" title="Restore" data-toggle="modal" data-target="#popup-confirm">
+                                <a class="btn btn-xs btn-info restoreLead" title="Restore" data-toggle="modal" data-target="#popup-confirm"
+                                   data-name="{{$lead->fullname}}" data-url="{{route('leads.restore', $lead->id)}}">
                                     <i class="fa fa-reply-all" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -88,13 +98,13 @@
     </div>
     <!-- /.box -->
 
-    <div id="popup-confirm" class="modal popup-confirm" tabindex="-1" role="dialog">
+    <div id="popup-confirm" class="modal popup-confirm popup-restore" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Do you really want restore lead "{{$lead->fullname}}" ?</p>
+                    <p>Do you really want restore lead "<span class="lead-name"><span>" ?</p>
                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
-                    <form class="inline" action="{{route('leads.restore', $lead->id)}}" method="post">
+                    <form class="inline form-restore" action="" method="post">
                         {{csrf_field()}}
                         <button class="btn btn-sm btn-danger" type="submit">Yes</button>
                     </form>
