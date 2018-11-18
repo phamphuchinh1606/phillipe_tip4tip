@@ -261,9 +261,8 @@ class Lead extends Model
         $sql = "select leads.status, count(leads.status) as countStatus 
                 from (select * from leads where id in ( select lead_id from assignments where consultant_id = ".$consultantId." ) order by created_at desc limit ".$num.") as recents 
                     inner join leads on recents.id = leads.id
-                    where delete_is = 0 
+                    where leads.delete_is = 0 
                 group by leads.status";
-                dd( $sql );
         $tipsters = DB::select($sql);
         return $tipsters;
     }
