@@ -363,9 +363,9 @@ class TipstersController extends Controller
         $response = array();
         try{
             /*Check point plussed for this tipster from lead?*/
-            $countRowPlus = count(PointHistory::countRowPlusPointForTipsterFollowLead($lead_id, $tipster_id));
+            $countRowPlus = PointHistory::countRowPlusPointForTipsterFollowLead($lead_id, $tipster_id);
 
-            if($countRowPlus > 0){ /*If tipster was plussed point*/
+            if(isset($countRowPlus)){ /*If tipster was plussed point*/
                 $warning = "This tipster was updated the point successfully.";
                 $response["warning"] = $warning;
                 $response["status"] = "-1";
