@@ -1,5 +1,5 @@
-export const URL_PAGE = "http://tip4tips-uat.amagumolabs.io/admin/api/";
-// export const URL_PAGE = "http://localhost:8000/api/";
+// export const URL_PAGE = "http://tip4tips-uat.amagumolabs.io/admin/api/";
+export const URL_PAGE = "http://localhost:8000/api/";
 //Login
 export const END_POINT_LOGIN = "login";
 

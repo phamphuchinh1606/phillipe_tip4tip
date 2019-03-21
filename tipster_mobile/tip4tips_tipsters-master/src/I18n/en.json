@@ -52,7 +52,9 @@
     "synchronize" : "Synchronize",
     "synchronizeLead" : "Synchronize lead",
     "totalLeads" : "Total leads",
-    "synchronized" : "Synchronized"
+    "synchronized" : "Synchronized",
+    "fromDate" : "From date",
+    "toDate" : "To date"
   },
   "leadsCreate" : {
     "title" : "Create Lead",

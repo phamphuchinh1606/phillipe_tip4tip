@@ -52,6 +52,8 @@ export const LEADS_SYNCHRONIZE = "leads.synchronize";
 export const LEADS_SYNCHRONIZE_LEAD = "leads.synchronizeLead";
 export const LEADS_TOTAL_LEADS = "leads.totalLeads";
 export const LEADS_SYNCHKRONIZED = "leads.synchronized";
+export const LEADS_FROM_DATE = "leads.fromDate";
+export const LEADS_TO_DATE = "leads.toDate";
 
 //Page Create lead
 export const LEAD_TITLE = "leadsCreate.title";

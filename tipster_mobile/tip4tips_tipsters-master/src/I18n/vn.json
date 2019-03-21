@@ -52,7 +52,9 @@
     "synchronize" : "Đồng Bộ",
     "synchronizeLead" : "Đồng bộ lead",
     "totalLeads" : "Tổng số lead",
-    "synchronized" : "Đã đồng bộ"
+    "synchronized" : "Đã đồng bộ",
+    "fromDate" : "Từ ngày",
+    "toDate" : "Đến ngày"
   },
   "leadsCreate" : {
     "title" : "Tạo Lead",

@@ -129,8 +129,8 @@ function* fetchLeads(action){
             let leadsFetch = yield LocalStorageAction.getLeadsList();
             yield put(actionFunction.leadFetchSuccess(leadsFetch));
         }else{
-            let {tipsterId, productId, statusId} = action;
-            let leadsFetch = yield leadService.fetchLeads(tipsterId, productId, statusId);
+            let {tipsterId, productId, statusId, listStatusId, fromDate, toDate} = action;
+            let leadsFetch = yield leadService.fetchLeads(tipsterId, productId, statusId,listStatusId, fromDate, toDate);
             let leadsNotSync = LocalStorageAction.getLeadNotSync();
             if(leadsNotSync.length > 0){
                 leadsFetch = [...leadsNotSync, ...leadsFetch];

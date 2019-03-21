@@ -37,7 +37,7 @@ export default class Layout extends Component {
     render() {
         let isLogin = checkLogin();
         if (!isLogin) {
-            <Redirect to="/login" />
+            {/*<Redirect to="/login" />*/}
         }
         return (
             <div className="main-content">

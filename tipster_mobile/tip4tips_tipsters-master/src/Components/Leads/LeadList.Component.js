@@ -8,6 +8,8 @@ import * as Utils from '../../Commons/Utils';
 import * as LocalStorageAction from '../../Commons/LocalStorageAction';
 import i18n from "../../I18n";
 import * as transKey from "../../I18n/TransKey";
+import  Select  from 'react-select';
+import DatePicker from 'react-datepicker';
 
 const customStyles = {
     content: {
@@ -25,10 +27,18 @@ const customStyles = {
     }
 };
 
+const customStylesSelect = {
+    control: styles => ({ ...styles, height: '43px',backgroundColor: "#f9ffff" })
+}
+
 const listStatus = [
     {
         id : 0,
         name : "New"
+    },
+    {
+        id : 5,
+        name : "Assign"
     },
     {
         id : 1,
@@ -62,7 +72,10 @@ export default class LeadListComponent extends Component {
             sortDate: 'desc',
             sortProduct: '',
             productId : '',
-            statusId : ''
+            statusId : '',
+            selectedStatusOption: [],
+            fromDate : '',
+            toDate : ''
         };
         this.openSync = this.openSync.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -139,9 +152,9 @@ export default class LeadListComponent extends Component {
         this.setState(this.state);
     }
 
-    fetchLead = (productId, statusId) =>{
+    fetchLead = (productId, statusId, listStatusId, fromDate, toDate) =>{
         let {leadFetch} = this.props;
-        leadFetch(this.state.userId, productId, statusId);
+        leadFetch(this.state.userId, productId, statusId, listStatusId, fromDate, toDate);
     }
 
     _onClickSortDate = () =>{
@@ -171,13 +184,36 @@ export default class LeadListComponent extends Component {
     _onChangeProduct = (e) =>{
         this.state.productId = e.target.value;
         this.setState(this.state);
-        this.fetchLead(this.state.productId, this.state.statusId);
+        this.fetchLead(this.state.productId, this.state.statusId, this.state.selectedStatusOption);
     }
 
     _onChangeStatus = (e) =>{
         this.state.statusId = e.target.value;
         this.setState(this.state);
-        this.fetchLead(this.state.productId, this.state.statusId);
+        let listStatusId = this.state.selectedStatusOption.map((item) => {
+            return item.value;
+        });
+        this.fetchLead(this.state.productId, this.state.statusId, this.state.listStatusId, this.state.fromDate, this.state.toDate);
+    }
+
+    __handleChangeSelectStatus = (selectedStatusOption) => {
+        this.state.selectedStatusOption = selectedStatusOption;
+        this.setState(this.state);
+        let listStatusId = this.state.selectedStatusOption.map((item) => {
+            return item.value;
+        });
+        this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
+    }
+
+    __handleChangeInputDate = () => {
+        // const name = e.target.name;
+        // const value = e.target.value;
+        // this.setState({fromDate: value });
+        // console.log(this.state.fromDate);
+        // let listStatusId = this.state.selectedStatusOption.map((item) => {
+        //     return item.value;
+        // });
+        // this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
     }
 
     render() {
@@ -220,34 +256,67 @@ export default class LeadListComponent extends Component {
 
         let buttonFillter = "";
         let fillter = "";
+        let statusOptions = listStatus.map((item, index) => {
+            return ({ value: item.id, label: item.name })
+        });
         if(this.props.isConnection){
             buttonFillter = <a href="#demo" data-toggle="collapse" className="btn btn-primary btn-xs">
                                 <i className="fa fa-filter" aria-hidden="true"> </i>
                             </a>;
             fillter = <div id="demo" className="collapse col-md-12" style={customStyles.filter}>
-                <div className="col-xs-6">
-                    <select name="productId" className="form-control" onChange={this._onChangeProduct}>
-                        <option value="" disabled="">All Product</option>
-                        {
-                            products.map((item, index) => {
-                                return (
-                                    <option value={item.id} key={index}>{item.name}</option>
-                                )
-                            })
-                        }
-                    </select>
+                <div className="col-md-12">
+                    <div className="col-xs-6">
+                        <select name="productId" className="form-control" onChange={this._onChangeProduct}>
+                            <option value="" disabled="">All Product</option>
+                            {
+                                products.map((item, index) => {
+                                    return (
+                                        <option value={item.id} key={index}>{item.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="col-xs-6">
+                        {/*<select name="status" className="form-control" onChange={this._onChangeStatus}>*/}
+                        {/*<option value="" disabled="">All Status</option>*/}
+                        {/*{*/}
+                        {/*listStatus.map((item, index) => {*/}
+                        {/*return (*/}
+                        {/*<option value={item.id} key={index}>{item.name}</option>*/}
+                        {/*)*/}
+                        {/*})*/}
+                        {/*}*/}
+                        {/*</select>*/}
+                        <Select
+                            value={this.state.selectedStatusOption}
+                            onChange={this.__handleChangeSelectStatus}
+                            options={statusOptions}
+                            isMulti={true}
+                            placeholder="All Status"
+                            styles={customStylesSelect}
+                        />
+                    </div>
                 </div>
-                <div className="col-xs-6">
-                    <select name="status" className="form-control" onChange={this._onChangeStatus}>
-                        <option value="" disabled="">All Status</option>
-                        {
-                            listStatus.map((item, index) => {
-                                return (
-                                    <option value={item.id} key={index}>{item.name}</option>
-                                )
-                            })
-                        }
-                    </select>
+                <div className="col-md-12">
+                    <div className="col-xs-6">
+                        <div className="form-group">
+                            <label>{i18n.t(transKey.LEADS_FROM_DATE)}</label>
+                            <DatePicker
+                                selected={this.state.fromDate}
+                                onChange={this.__handleChangeInputDate}
+                            />
+                            {/*<input name="fromDate" type="date" className="form-control" value={this.state.fromDate} placeholder="Enter ..."*/}
+                                   {/*onChange={this.__handleChangeInputDate(this)}/>*/}
+                        </div>
+                    </div>
+                    <div className="col-xs-6">
+                        <div className="form-group">
+                            <label>{i18n.t(transKey.LEADS_TO_DATE)}</label>
+                            <input name="toDate" type="date" className="form-control" value={this.state.toDate} placeholder="Enter ..."
+                                   onChange={this.__handleChangeInputDate(this)}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         }

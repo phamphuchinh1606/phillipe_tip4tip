@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Fullscreen from "react-full-screen";
 
@@ -19,7 +19,7 @@ let store = createStore(allReducers,
 
 class App extends Component {
   constructor(props) {
-    super();
+    super(props);
 
     this.state = {
       isFull: true,

@@ -1,9 +1,10 @@
 import * as URL from '../../API/URL';
 import apiCaller from '../../API/apiCaller';
 
-export function* fetchLeads(tipsterId, productId, statusId){
+export function* fetchLeads(tipsterId, productId, statusId, listStatusId, fromDate, toDate){
     let leads = {};
-    let urlEndPoint = URL.END_POINT_LEAD_LIST + "/" + tipsterId + "?product_id="+productId+"&status_id="+statusId;
+    console.log(listStatusId.join(','));
+    let urlEndPoint = URL.END_POINT_LEAD_LIST + "/" + tipsterId + "?product_id="+productId+"&status_id="+listStatusId.join(',')+"&from_date="+fromDate+"&to_date="+toDate;
     yield apiCaller(urlEndPoint,"GET", null).then(res=>{
         leads = res.data;
     });

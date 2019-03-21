@@ -47,12 +47,15 @@ export const loaddingFalse = () =>{
 }
 
 //Lead
-export const leadFetch = (tipsterId, productId, statusId) => {
+export const leadFetch = (tipsterId, productId, statusId, listStatusId, fromDate, toDate) => {
     return{
         type: actionType.LEAD_FETCH,
         tipsterId: tipsterId,
         productId: productId,
-        statusId: statusId
+        statusId: statusId,
+        listStatusId : listStatusId,
+        fromDate : fromDate,
+        toDate : toDate
     }
 }
 

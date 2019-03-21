@@ -127,9 +127,9 @@ export default class LeadNew extends Component {
         this.props.onCreateLead(lead);
     }
 
-    _onClickComfirm = () => {
+    _onClickComfirm = async () => {
         let message = i18n.t(transKey.LEAD_MESSAGE_CONFIRM_ADD_NEW_LEAD);
-        confirmAlert({
+        await confirmAlert({
             title: i18n.t(transKey.LEAD_TITLE_CONFIRM_ADD_NEW_LEAD),
             message: message,
             buttons: [

@@ -16,8 +16,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        leadFetch: (tipsterId, productId, statusId) => {
-            dispatch(action.leadFetch(tipsterId, productId, statusId));
+        leadFetch: (tipsterId, productId, statusId, listStatusId, fromDate, toDate) => {
+            dispatch(action.leadFetch(tipsterId, productId, statusId, listStatusId, fromDate, toDate));
         },
         leadSortDate: (sortDate) => {
           dispatch(action.leadSortDate(sortDate));
