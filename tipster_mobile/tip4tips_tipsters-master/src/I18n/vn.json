@@ -17,7 +17,15 @@
     "latestStatus" : "Tình Trạng mới nhất (5 leads cuối)",
     "recentLeads" : "Leads mới nhất (5 Leads)",
     "viewMoreLeads" : "Xem thêm",
-    "title": "Tip4tips Báo Cáo"
+    "title": "Tip4tips Báo Cáo",
+    "leadStatus": {
+      "new" : "Mới",
+      "call" : "Gọi",
+      "quote" : "Trích Dẫn",
+      "win" : "Thắng",
+      "lost" : "Thua",
+      "assign" : "Đang chờ"
+    }
   },
   "menuPartner" : {
     "title": "Chọn loại bảo hiểm",
@@ -93,6 +101,8 @@
     "cancel" : "Hủy bỏ",
     "delete" : "Xóa",
     "close" : "Đóng",
-    "noRecord" : "Không tìm thấy dữ liệu phù hợp"
+    "noRecord" : "Không tìm thấy dữ liệu phù hợp",
+    "allStatus" : "Trạng thái",
+    "allProduct" : "Sản phẩm"
   }
 }

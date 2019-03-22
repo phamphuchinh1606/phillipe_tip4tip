@@ -27,13 +27,17 @@ export default class LeadStatus extends Component {
             dataView = [statusLead.new, statusLead.call, statusLead.quote, statusLead.win, statusLead.lost];
             backgroundColor = [statusLead.colorNew, statusLead.colorCall, statusLead.colorQuote, statusLead.colorWin, statusLead.colorLost];
         }
-        let labelsTitle = [ "New", "Call", "Quote", "Win", "Lost"];
+        let statusNewName = i18n.t(transKey.HOME_LEAD_STATUS_NEW);
+        let statusCallName = i18n.t(transKey.HOME_LEAD_STATUS_CALL);
+        let statusQuoteName = i18n.t(transKey.HOME_LEAD_STATUS_QUOTE);
+        let statusWinName = i18n.t(transKey.HOME_LEAD_STATUS_WIN);
+        let statusLostName = i18n.t(transKey.HOME_LEAD_STATUS_LOST);
+        let statusAssignName = i18n.t(transKey.HOME_LEAD_STATUS_ASSIGN);
+
+        let labelsTitle = [ statusNewName, statusCallName, statusQuoteName, statusWinName, statusLostName];
         if(statusLead){
-            labelsTitle = [statusLead.newPersen + "% New",statusLead.callPersen + "% Call",statusLead.quotePersen + "% Quote", statusLead.winPersen + "% Win",
-                statusLead.lostPersen + "% Lost"];
-            // labelsTitle = [ "New : " + this.__formatNumber(100*statusLead.new/sumData), "Call : " + this.__formatNumber(100*statusLead.call/sumData),
-            //     "Quote : " + this.__formatNumber(100*statusLead.quote/sumData), "Win : " + this.__formatNumber(100*statusLead.win/sumData) ,
-            //     "Lost : " + this.__formatNumber(100*statusLead.lost/sumData)];
+            labelsTitle = [statusLead.newPersen + "% "+statusNewName,statusLead.callPersen + "% "+statusCallName,statusLead.quotePersen + "% "+statusQuoteName, statusLead.winPersen + "% "+statusWinName,
+                statusLead.lostPersen + "% "+statusLostName];
         }
         let data = {
             labels: labelsTitle,

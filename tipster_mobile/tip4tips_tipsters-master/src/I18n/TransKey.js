@@ -17,6 +17,13 @@ export const HOME_LATEST_STATUS = "home.latestStatus";
 export const HOME_RECENT_LEADS = "home.recentLeads";
 export const HOME_VIEW_MORE_LEADS = "home.viewMoreLeads";
 export const HOME_TITLE = "home.title";
+export const HOME_LEAD_STATUS_NEW = "home.leadStatus.new";
+export const HOME_LEAD_STATUS_CALL = "home.leadStatus.call";
+export const HOME_LEAD_STATUS_QUOTE = "home.leadStatus.quote";
+export const HOME_LEAD_STATUS_WIN = "home.leadStatus.win";
+export const HOME_LEAD_STATUS_LOST = "home.leadStatus.lost";
+export const HOME_LEAD_STATUS_ASSIGN = "home.leadStatus.assign";
+
 
 //Page Menu Partner
 export const MENU_PARTNER_TITLE = "menuPartner.title";
@@ -92,3 +99,5 @@ export const COMMON_CANCEL = "common.cancel";
 export const COMMON_DELETE = "common.delete";
 export const COMMON_CLOSE = "common.close";
 export const COMMON_NO_RECORD = "common.noRecord";
+export const COMMON_ALL_STATUS = "common.allStatus";
+export const COMMON_ALL_PRODUCT = "common.allProduct";

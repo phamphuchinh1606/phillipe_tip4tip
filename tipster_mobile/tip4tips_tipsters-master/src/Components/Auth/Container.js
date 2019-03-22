@@ -36,7 +36,9 @@ export default class Container extends Component {
                 fieldValidationErrors.email = emailValid ? '' : ' is invalid';
                 break;
             case 'password':
-                passwordValid = value.length >= 6;
+                // passwordValid = value.length >= 6;
+                // fieldValidationErrors.password = passwordValid ? '' : ' is too short';
+                passwordValid = true;
                 fieldValidationErrors.password = passwordValid ? '' : ' is too short';
                 break;
             default:
@@ -78,6 +80,7 @@ export default class Container extends Component {
         let {loginError} = this.props;
         let headerStatusLogin = [];
         if(loginError){
+            console.log(loginError);
             headerStatusLogin = <div className="alert alert-danger">
                 <div className='formErrors'>
                     {loginError}

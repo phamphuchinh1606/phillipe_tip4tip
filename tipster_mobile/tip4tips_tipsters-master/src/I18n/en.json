@@ -17,7 +17,14 @@
     "latestStatus" : "Latest status (20 last Leads)",
     "recentLeads" : "Recent Leads(5 Leads)",
     "viewMoreLeads" : "View More Leads",
-    "title": "Tip4tips Dashboard"
+    "title": "Tip4tips Dashboard",
+    "leadStatus": {
+      "new" : "New",
+      "call" : "Call",
+      "quote" : "Quote",
+      "win" : "Win",
+      "lost" : "Lost"
+    }
   },
   "menuPartner" : {
     "title": "Choose an insurance type",
@@ -93,6 +100,8 @@
     "cancel" : "Cancel",
     "delete" : "Delete",
     "close" : "Close",
-    "noRecord" : "No matching records found"
+    "noRecord" : "No matching records found",
+    "allStatus" : "Trạng thái",
+    "allProduct" : "Sản phẩm"
   }
 }

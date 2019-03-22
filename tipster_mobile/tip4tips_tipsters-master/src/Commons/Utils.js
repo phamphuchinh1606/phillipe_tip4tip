@@ -12,8 +12,8 @@ export const checkLogin = () => {
         if(userInfo.preferredLang){
             i18n.changeLanguage(userInfo.preferredLang);
         }else{
-            localStorage.removeItem("userInfo");
-            return false;
+            // localStorage.rmoveItem("userInfo");
+            // return false;
         }
 
         if (!userInfo.loginState) {

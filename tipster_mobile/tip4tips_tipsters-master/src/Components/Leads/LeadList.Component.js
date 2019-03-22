@@ -10,6 +10,8 @@ import i18n from "../../I18n";
 import * as transKey from "../../I18n/TransKey";
 import  Select  from 'react-select';
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import "./css/LeadList.css"
 
 const customStyles = {
     content: {
@@ -31,36 +33,45 @@ const customStylesSelect = {
     control: styles => ({ ...styles, height: '43px',backgroundColor: "#f9ffff" })
 }
 
+let statusNewName = i18n.t(transKey.HOME_LEAD_STATUS_NEW);
+let statusCallName = i18n.t(transKey.HOME_LEAD_STATUS_CALL);
+let statusQuoteName = i18n.t(transKey.HOME_LEAD_STATUS_QUOTE);
+let statusWinName = i18n.t(transKey.HOME_LEAD_STATUS_WIN);
+let statusLostName = i18n.t(transKey.HOME_LEAD_STATUS_LOST);
+let statusAssignName = i18n.t(transKey.HOME_LEAD_STATUS_ASSIGN);
+
 const listStatus = [
     {
         id : 0,
-        name : "New"
+        name : i18n.t(transKey.HOME_LEAD_STATUS_NEW)
     },
     {
         id : 5,
-        name : "Assign"
+        name : i18n.t(transKey.HOME_LEAD_STATUS_ASSIGN)
     },
     {
         id : 1,
-        name : "Call"
+        name : i18n.t(transKey.HOME_LEAD_STATUS_CALL)
     },
     {
         id : 2,
-        name : "Quote"
+        name : i18n.t(transKey.HOME_LEAD_STATUS_QUOTE)
     },
     {
         id : 3,
-        name : "Win"
+        name : i18n.t(transKey.HOME_LEAD_STATUS_WIN)
     },
     {
         id: 4,
-        name: "Lost"
+        name: i18n.t(transKey.HOME_LEAD_STATUS_LOST)
     }
 ];
 
 export default class LeadListComponent extends Component {
     constructor(props) {
         super(props);
+        let today = new Date(),
+        date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
         this.state = {
             modalIsOpen: false,
             leadsSync: [],
@@ -74,8 +85,8 @@ export default class LeadListComponent extends Component {
             productId : '',
             statusId : '',
             selectedStatusOption: [],
-            fromDate : '',
-            toDate : ''
+            fromDate : date,
+            toDate : date
         };
         this.openSync = this.openSync.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -205,15 +216,24 @@ export default class LeadListComponent extends Component {
         this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
     }
 
-    __handleChangeInputDate = () => {
-        // const name = e.target.name;
-        // const value = e.target.value;
-        // this.setState({fromDate: value });
-        // console.log(this.state.fromDate);
-        // let listStatusId = this.state.selectedStatusOption.map((item) => {
-        //     return item.value;
-        // });
-        // this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
+    __handleChangeInputFromDate = (date) => {
+        let strDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        this.state.fromDate = strDate;
+        this.setState(this.state);
+        let listStatusId = this.state.selectedStatusOption.map((item) => {
+            return item.value;
+        });
+        this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
+    }
+
+    __handleChangeInputToDate = (date) => {
+        let strDate = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        this.state.toDate = strDate;
+        this.setState(this.state);
+        let listStatusId = this.state.selectedStatusOption.map((item) => {
+            return item.value;
+        });
+        this.fetchLead(this.state.productId, this.state.statusId,listStatusId, this.state.fromDate, this.state.toDate);
     }
 
     render() {
@@ -263,11 +283,47 @@ export default class LeadListComponent extends Component {
             buttonFillter = <a href="#demo" data-toggle="collapse" className="btn btn-primary btn-xs">
                                 <i className="fa fa-filter" aria-hidden="true"> </i>
                             </a>;
-            fillter = <div id="demo" className="collapse col-md-12" style={customStyles.filter}>
+            fillter = <div id="demo" className="collapse row" style={customStyles.filter}>
                 <div className="col-md-12">
                     <div className="col-xs-6">
+                        <div className="form-group">
+                            <label>{i18n.t(transKey.LEADS_FROM_DATE)}</label>
+                            <div>
+                                <DatePicker
+                                    value={this.state.fromDate}
+                                    dateFormat="MM/DD/YYYY"
+                                    onChange={this.__handleChangeInputFromDate.bind(this)}
+                                    className="form-control"
+                                    name="fromDate"
+                                    required={true}
+                                />
+                            </div>
+                            {/*<input name="fromDate" type="date" className="form-control" value={this.state.fromDate} placeholder="Enter ..."*/}
+                                   {/*onChange={this.__handleChangeInputDate.bind(this)}/>*/}
+                        </div>
+                    </div>
+                    <div className="col-xs-6">
+                        <div className="form-group">
+                            <label>{i18n.t(transKey.LEADS_TO_DATE)}</label>
+                            <div>
+                                <DatePicker
+                                    value={this.state.toDate}
+                                    dateFormat="MM/DD/YYYY"
+                                    onChange={this.__handleChangeInputToDate.bind(this)}
+                                    className="form-control"
+                                    name="toDate"
+                                    required={true}
+                                />
+                            </div>
+                            {/*<input name="toDate" type="date" className="form-control" value={this.state.toDate} placeholder="Enter ..."*/}
+                                   {/*onChange={this.__handleChangeInputDate.bind(this)}/>*/}
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-12" style={{height:35}}>
+                    <div className="col-xs-6" style={{height:25}}>
                         <select name="productId" className="form-control" onChange={this._onChangeProduct}>
-                            <option value="" disabled="">All Product</option>
+                            <option value="" disabled="">{i18n.t(transKey.COMMON_ALL_PRODUCT)}</option>
                             {
                                 products.map((item, index) => {
                                     return (
@@ -277,7 +333,7 @@ export default class LeadListComponent extends Component {
                             }
                         </select>
                     </div>
-                    <div className="col-xs-6">
+                    <div className="col-xs-6" style={{height:35}}>
                         {/*<select name="status" className="form-control" onChange={this._onChangeStatus}>*/}
                         {/*<option value="" disabled="">All Status</option>*/}
                         {/*{*/}
@@ -293,31 +349,12 @@ export default class LeadListComponent extends Component {
                             onChange={this.__handleChangeSelectStatus}
                             options={statusOptions}
                             isMulti={true}
-                            placeholder="All Status"
+                            placeholder={i18n.t(transKey.COMMON_ALL_STATUS)}
                             styles={customStylesSelect}
                         />
                     </div>
                 </div>
-                <div className="col-md-12">
-                    <div className="col-xs-6">
-                        <div className="form-group">
-                            <label>{i18n.t(transKey.LEADS_FROM_DATE)}</label>
-                            <DatePicker
-                                selected={this.state.fromDate}
-                                onChange={this.__handleChangeInputDate}
-                            />
-                            {/*<input name="fromDate" type="date" className="form-control" value={this.state.fromDate} placeholder="Enter ..."*/}
-                                   {/*onChange={this.__handleChangeInputDate(this)}/>*/}
-                        </div>
-                    </div>
-                    <div className="col-xs-6">
-                        <div className="form-group">
-                            <label>{i18n.t(transKey.LEADS_TO_DATE)}</label>
-                            <input name="toDate" type="date" className="form-control" value={this.state.toDate} placeholder="Enter ..."
-                                   onChange={this.__handleChangeInputDate(this)}/>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         }
         return (
@@ -335,7 +372,7 @@ export default class LeadListComponent extends Component {
                     {/* header info */}
                     {headerInfo}
                     <div>
-                        <table className="table table-hover table-striped lead__list_mobile">
+                        <table className="table table-hover table-striped lead__list_mobile" style={{marginTop : 10}}>
                             <thead>
                                 <tr>
                                     <th>{i18n.t(transKey.LEADS_NO)}.</th>
