@@ -16,4 +16,12 @@ class RoleType extends Model
     public static function getNameByID($id){
         return RoleType::where('id', $id)->select('*')->first();
     }
+
+    public static function getByListID($listId){
+        return RoleType::whereIn('id', $listId)->select('*')->get();
+    }
+
+    public static function getAll(){
+        return RoleType::select('*')->first();
+    }
 }

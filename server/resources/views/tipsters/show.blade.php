@@ -9,7 +9,7 @@ use App\Common\Utils;
     <script src="{{ asset('js/admin/dataTables.bootstrap.min.js') }}"></script>
     <script>
       $(function () {
-        $('#viewList').DataTable({
+        $('.viewList').DataTable({
           'paging'      : true,
           'lengthChange': false,
           'searching'   : true,
@@ -145,6 +145,14 @@ use App\Common\Utils;
                             </p>
                         </div>
                     </div>
+                    <div class="row box-line">
+                        <div class="col-sm-6">
+                            <p class="text-muted">
+                                <i class="fa fa-info-circle margin-r-5"></i> Description
+                                <span class="text-highlight">{{$user->description}}</span>
+                            </p>
+                        </div>
+                    </div>
                     {{--<div class="row box-line">--}}
                         {{--<div class="col-sm-12">--}}
                             {{--<p>--}}
@@ -164,7 +172,7 @@ use App\Common\Utils;
                     <h3 class="box-title">Points History</h3>
                 </div>
                 <div class="box-body">
-                    <table id="viewList" class="table table-striped lead__ref">
+                    <table class="table table-striped lead__ref viewList">
                         <thead>
                         <tr>
                             <th>Points</th>
@@ -213,6 +221,59 @@ use App\Common\Utils;
             </div>
         </div>
         <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lead's list</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-striped lead__ref viewList">
+                        <thead>
+                        <tr>
+                            <th>Lead</th>
+                            <th>Consultant</th>
+                            <th>Product</th>
+                            <th>Status</th>
+                            <th>Created date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(!empty($leadsProcess))
+                            @foreach($leadsProcess as $lead)
+                                <tr>
+                                    <td>
+                                        <a href="{{route('leads.show', $lead->id)}}">{{$lead->fullname}}</a>
+                                    </td>
+                                    <td>{{$lead->consultant}}</td>
+                                    <td>{{ $lead->product }}</td>
+                                    <td>
+                                        <span class="label-status {{Common::showColorStatus($lead->status)}}">{{ Common::showNameStatus($lead->status) }}</span>
+                                    </td>
+                                    <td>{{$lead->created_at}}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="3">Do not have any tipster.</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @include('tipsters.__list_gift_buy_able')
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            @include('tipsters.__list_gift')
+        </div>
     </div>
     {{--popup confirm--}}
     <div id="popup-confirm" class="modal popup-confirm" tabindex="-1" role="dialog">

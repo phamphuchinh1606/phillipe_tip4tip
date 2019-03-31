@@ -52,6 +52,10 @@ $authInfo = Common::userInfo($auth->id);
             <li class="{{ (Request::is('*users*') ? 'active' : '') }}">
                 <a href='{{route('users.index')}}'><i class="fa fa-users"></i><span>Users</span></a>
             </li>
+            <li class="{{ (Request::is('*departments*') ? 'active' : '') }}">
+                <a href='{{route('departments.index')}}'><i class="fa fa-dedent"></i><span>Departments</span></a>
+            </li>
+
             {{--Product--}}
             <li class="{{ (Request::is('*products*') ? 'active' : '') }}">
                 <a href="{{route('products.index')}}"><i class="fa fa-shield"></i><span>Products</span>                </a>

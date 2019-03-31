@@ -32,6 +32,13 @@ class Role extends Model
         return $role;
     }
 
+    public static function getInfoRoleByListID($listId){
+        $roles = Role::join('roletypes','roletypes.id','roles.roletype_id')
+                ->whereIn('roletypes.id',$listId)
+                ->select('roles.*','roletypes.name as role_type_name')->get();
+        return $roles;
+    }
+
     public static function getIDRoleByCode($code){
         $code = DB::table('roles')
         ->where('code', $code)
@@ -54,5 +61,13 @@ class Role extends Model
             ->select('*')
             ->get();
         return $roles;
+    }
+
+    public static function getRoleByUser($userId){
+        $userRoles = UserRole::join('roles','user_roles.role_id','roles.id')
+            ->where('user_roles.user_id',$userId)
+            ->select('roles.*')
+            ->get();
+        return $userRoles;
     }
 }

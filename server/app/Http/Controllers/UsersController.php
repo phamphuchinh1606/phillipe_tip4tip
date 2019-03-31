@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Common\Common;
+use App\Common\RoleCommon;
 use App\Model\Region;
 use App\Model\Role;
 use App\Model\RoleType;
+use App\Model\UserRole;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,20 +25,18 @@ class UsersController extends Controller
     {
         //
         $auth = Auth::user();
-        $roleAuth = Role::getInfoRoleByID($auth->role_id);
-//        $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
         $users = User::getAllConsultant();
 
-        if($roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
-            $users = User::getAllUserNotTipster();
+            $users = User::getAllUserNotTipster($auth->id);
         }
-        if($roleAuth->code == 'sale'){
+        if(RoleCommon::checkRoleaSale()){
             $editAction = true;
             $createAction = true;
             $deleteAction = true;
@@ -67,10 +67,10 @@ class UsersController extends Controller
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $createAction = false;
         $roletypes = RoleType::where('code', '<>', 'tipster')->get();
-        if($roleAuth->code == 'admin' || $roleAuth->code == 'sale'){
+        if(RoleCommon::checkRoleAdmin() || RoleCommon::checkRoleaSale()){
             $createAction = true;
         }
-        if($roleAuth->code == 'sale'){
+        if(RoleCommon::checkRoleaSale()){
             $roletypes = RoleType::where('code', 'consultant')->get();
         }
         return view('users.create')->with([
@@ -103,6 +103,7 @@ class UsersController extends Controller
         if(isset($request->birthday) && null != $request->birthday){
             $user['birthday'] = \Carbon\Carbon::createFromFormat('d/m/Y',$request->birthday);
         }
+        $roleIds = $request->department;
         $user['email'] = $request->email;
         $user['password']= bcrypt($request->password);
         $user['gender'] = $request->gender;
@@ -111,7 +112,10 @@ class UsersController extends Controller
         $user['point'] = 0;
         $user['vote'] = 0;
         $user['region_id'] = $request->region;
-        $user['role_id'] = $request->department;
+        if(isset($roleIds) && count($roleIds) > 1){
+            $user['role_id'] = $roleIds[0];
+        }
+        $user['create_by_id'] = Auth::user()->id;
         $user['delete_is'] = 0;
         $imageName = 'no_image_available.jpg';
         if(!empty(request()->avatar)){
@@ -120,8 +124,17 @@ class UsersController extends Controller
         }
 
         $user['avatar'] = $imageName;
+        $userDb = User::create($user);
+        if(isset($roleIds) && count($roleIds) > 1){
+            foreach ($roleIds as $index => $roleId){
+                if($index > 0){
+                    $userRole['user_id'] = $userDb->id;
+                    $userRole['role_id'] = $roleId;
+                    UserRole::create($userRole);
+                }
+            }
+        }
 
-        User::create($user);
         return redirect()->route('users.index')->with('success', 'User was added successfully.');
     }
 
@@ -141,19 +154,37 @@ class UsersController extends Controller
         $editAction = false;
         $deleteAction = false;
 
-        if($roleAuth->code == 'admin' || $roleAuth->code == 'sale' || $user->id == $auth->id){
+        if(RoleCommon::checkRoleSaleAdmin() || $user->id == $auth->id){
             $editAction = true;
         }
-        if($roleAuth->code == 'admin' || $roleAuth->code == 'sale'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             if($user->roleCode != 'admin' || $user->id != $auth->id){
                 $deleteAction = true;
             }
         }
 
+        //Get list tipster by user
+        $tipsters = [];
+        $roleCommunity = false;
+        if(RoleCommon::checkRoleCommunity($user->role_id)){
+            $tipsters = User::getAllTipster($user->id);
+            $roleCommunity = true;
+        }
+        $consultants = [];
+        $roleSale = false;
+        if(RoleCommon::checkRoleaSale()){
+            $consultants = User::getAllConsultant($user->id);
+            $roleSale = true;
+        }
+
 
         return view('users.show', compact('user', 'id'))->with([
             'editAction' => $editAction,
-            'deleteAction' => $deleteAction
+            'deleteAction' => $deleteAction,
+            'tipsters' => $tipsters,
+            'consultants' => $consultants,
+            'roleCommunity' => $roleCommunity,
+            'roleSale' => $roleSale
         ]);
     }
 
@@ -176,6 +207,7 @@ class UsersController extends Controller
             if($user->birthday != null){
                 $user->birthday = Common::dateFormat($user->birthday,'d/m/Y');
             }
+            $userRoleIds = RoleCommon::listRoleIdUser($user->id, $user->role_id);
             $roles = Role::where('code','<>', 'admin')->get();
             $roletypes = RoleType::where('code', '<>', 'tipster')->get();
             $regions = Region::getAllRegion();
@@ -193,7 +225,8 @@ class UsersController extends Controller
                 'roles' => $roles,
                 'roletypes' => $roletypes,
                 'regions'=> $regions,
-                'editAction' => $editAction
+                'editAction' => $editAction,
+                'userRoleIds' => $userRoleIds
             ]);
         }else{
             return view('users.edit',compact('user','id'))->with([
@@ -245,11 +278,14 @@ class UsersController extends Controller
                 $user->email = $email;
             }
         }
+        $roleIds = $request->department;
+        if(isset($roleIds) && count($roleIds) > 1){
+            $user['role_id'] = $roleIds[0];
+        }
         $user->fullname = $request->get('fullname');
         $user->phone = $request->get('phone');
         $user->address = $request->get('address');
         $user->gender = $request->get('gender');
-        $user->role_id = $request->get('department');
         $user->delete_is = $request->get('status');
         if(null != $request->get('birthday')){
             $user->birthday = \Carbon\Carbon::createFromFormat('d/m/Y',$request->birthday);
@@ -263,6 +299,16 @@ class UsersController extends Controller
         $user->avatar = $imageName;
 
         $user->save();
+        if(isset($roleIds) && count($roleIds) > 0 && isset($user)){
+            UserRole::where('user_id',$id)->delete();
+            foreach ($roleIds as $index => $roleId){
+                if($index > 0){
+                    $userRole['user_id'] = $id;
+                    $userRole['role_id'] = $roleId;
+                    UserRole::create($userRole);
+                }
+            }
+        }
         return redirect()->route('users.index')->with('success','User was updated successfully');
     }
 
@@ -280,19 +326,19 @@ class UsersController extends Controller
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
 
         $user = User::find($id);
-        if($roletypeAuth->code == 'tipster' || $roletypeAuth->code == 'consultant'){
+        if(RoleCommon::checkRoleTipster() || RoleCommon::checkRoleaConsultant()){
             return back()->with('error', 'You do not have access delete user.');
         }else{
-            if($roleAuth->code == 'sale'){
-                if(RoleType::getNameByID(Role::getInfoRoleByID($user->role_id)->roletype_id)->code == 'consultant'){
+            if(RoleCommon::checkRoleaSale()){
+                if(RoleCommon::checkRoleaConsultant()){
                     $user->delete_is = 1;
                     $user->save();
                     return back()->with('success', 'Delete a user successfully.');
                 } else{
                     return back()->with('error', 'You do not have access delete user.');
                 }
-            }elseif($roleAuth->code == 'community'){
-                if(Role::getInfoRoleByID($user->id) == 'tipster'){
+            }elseif(RoleCommon::checkRoleCommunity()){
+                if(RoleCommon::checkRoleTipster()){
                     $user->delete_is = 1;
                     $user->save();
                     return back()->with('success', 'Delete a user successfully.');

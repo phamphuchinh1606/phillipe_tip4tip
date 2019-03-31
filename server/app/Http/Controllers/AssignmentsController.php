@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\RoleCommon;
 use App\Model\Assignment;
 use App\Model\Lead;
 use App\Model\Role;
@@ -31,7 +32,7 @@ class AssignmentsController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
@@ -56,7 +57,7 @@ class AssignmentsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $createAction = true;
         }
 
@@ -68,7 +69,7 @@ class AssignmentsController extends Controller
             'consultants'=>$consultants,
             'leads' => $leads,
             'createAction' => $createAction
-            ])->with('success', 'Assignment successfully.');
+            ])->with('success', 'Assignment Assign successfully.');
     }
 
     /**
@@ -98,7 +99,7 @@ class AssignmentsController extends Controller
             Log::error($e->getMessage());
         }
         $backUrl = url()->previous();
-        return redirect($backUrl);
+        return redirect($backUrl)->with('success', 'Assignment Assign successfully.');
     }
 
     /**
@@ -124,7 +125,7 @@ class AssignmentsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $editAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
         }
         $consultants = User::getAllConsultant();

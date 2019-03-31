@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Common\Common;
@@ -31,10 +32,15 @@ class DashboardAPIController extends Controller
         if(isset($request->product_id)){
             $productId = $request->product_id;
         }
+        $tipster = User::find($tipsterId);
         $recentleads = Lead::getRecentLeadsByTipster($tipsterId,5);
         foreach ($recentleads as $recentlead){
             $recentlead->created_date = Common::dateFormat($recentlead->created_at,'d-M-Y');
-            $recentlead->status_text = Common::showNameStatus($recentlead->status);
+            if(isset($tipster) && $tipster->preferred_lang == 'vn'){
+                $recentlead->status_text = Common::showNameStatusVN($recentlead->status);
+            }else{
+                $recentlead->status_text = Common::showNameStatus($recentlead->status);
+            }
             $recentlead->status_color = Common::colorStatus($recentlead->status);
             $recentlead->product = Product::getProductByID($recentlead->product_id)->name;
         }
@@ -43,6 +49,8 @@ class DashboardAPIController extends Controller
 
         $new = 0;
         $colorNew = Common::colorStatus(0);
+        $assign = 0;
+        $colorAssign =  Common::colorStatus(5);
         $call =0;
         $colorCall = Common::colorStatus(1);
         $quote = 0;
@@ -58,6 +66,9 @@ class DashboardAPIController extends Controller
                 case 0:
                     $new = $sumStatus->countStatus;
                     break;
+                case 5:
+                    $assign = $sumStatus->countStatus;
+                    break;
                 case 1:
                     $call = $sumStatus->countStatus;
                     break;
@@ -72,7 +83,9 @@ class DashboardAPIController extends Controller
                     break;
             }
         }
+
         $newPersen =  $this->formatPersen($new,$totalCount);
+        $assignPersen = $this->formatPersen($assign,$totalCount);
         $callPersen =  $this->formatPersen($call,$totalCount);
         $quotePersen =  $this->formatPersen($quote,$totalCount);
         $winPersen =  $this->formatPersen($win,$totalCount);
@@ -80,6 +93,8 @@ class DashboardAPIController extends Controller
         $statusLead = [
         	'new' => $new,
         	'colorNew' => $colorNew,
+            'assign' => $assign,
+            'colorAssign' => $colorAssign,
             'call' => $call,
             'colorCall' => $colorCall,
             'quote' => $quote,
@@ -89,6 +104,7 @@ class DashboardAPIController extends Controller
             'lost' => $lost,
             'colorLost' => $colorLost,
             'newPersen' => $newPersen,
+            'assignPersen' => $assignPersen ,
             'callPersen' => $callPersen,
             'quotePersen' => $quotePersen,
             'winPersen' => $winPersen,

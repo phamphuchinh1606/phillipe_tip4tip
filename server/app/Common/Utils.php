@@ -9,6 +9,7 @@ class Utils{
     public static $lead_process_status_quote = "2";
     public static $lead_process_status_win = "3";
     public static $lead_process_status_lost = "4";
+    public static $lead_process_status_assign = "5";
     public static $tipster_process_init = "5";
     public static $tipster_process_bonus = "6";
     public static $tipster_process_buy_gift = "7";

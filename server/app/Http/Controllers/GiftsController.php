@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\RoleCommon;
 use App\Model\Gift;
 use App\Model\GiftCategory;
 use App\Model\Role;
@@ -25,7 +26,7 @@ class GiftsController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
@@ -55,7 +56,7 @@ class GiftsController extends Controller
         $auth = Auth::user();
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $createAction = false;
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin()){
             $createAction = true;
         }
         $categories = GiftCategory::all();
@@ -107,7 +108,7 @@ class GiftsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
         $deleteAction = false;
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin()){
             $editAction = true;
             $deleteAction = true;
         }
@@ -135,7 +136,7 @@ class GiftsController extends Controller
         $auth = Auth::user();
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin()){
             $editAction = true;
         }
         return view('gifts.edit', compact('gift', 'id'))->with([

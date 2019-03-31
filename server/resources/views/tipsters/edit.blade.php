@@ -282,8 +282,20 @@ $auth = Auth::user();
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Address</label>
-                                    <textarea name="address" class="form-control" placeholder="Enter ..." rows="4">{{$user->address}}</textarea>
+                                    <label>Level</label>
+                                    <select class="form-control" name="department">
+                                        <option value="" disabled selected>Please pick a level</option>
+                                        @foreach($roletypes as $roletype)
+                                            <optgroup label="{{$roletype->name}}">
+                                                @foreach($roles as $role)
+                                                    @if($role->roletype_id == $roletype->id)
+                                                        <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -302,20 +314,14 @@ $auth = Auth::user();
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Level</label>
-                                    <select class="form-control" name="department">
-                                        <option value="" disabled selected>Please pick a level</option>
-                                        @foreach($roletypes as $roletype)
-                                            <optgroup label="{{$roletype->name}}">
-                                                @foreach($roles as $role)
-                                                    @if($role->roletype_id == $roletype->id)
-                                                        <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>
-                                                    @endif
-                                                @endforeach
-                                            </optgroup>
-                                        @endforeach
-
-                                    </select>
+                                    <label>Address</label>
+                                    <textarea name="address" class="form-control" placeholder="Enter ..." rows="4">{{$user->address}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" class="form-control" placeholder="Enter ..." rows="4">{{$user->description}}</textarea>
                                 </div>
                             </div>
 

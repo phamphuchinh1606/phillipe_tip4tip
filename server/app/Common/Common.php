@@ -42,6 +42,9 @@ class Common{
             case 1:
                 $color = '#367fa9';//call
                 break;
+            case 5:
+                $color = '#500a6f';//Assign
+                break;
             case 2:
                 $color = '#e08e0b';//quote
                 break;
@@ -64,6 +67,9 @@ class Common{
             case 0:
                 $name = 'label-new';
                 break;
+            case 5:
+                $name = 'label-assign';
+                break;
             case 1:
                 $name = 'label-call';
                 break;
@@ -85,6 +91,9 @@ class Common{
             case 0:
                 $name = 'New';
                 break;
+            case 5:
+                $name = 'Assign';
+                break;
             case 1:
                 $name = 'Call';
                 break;
@@ -96,6 +105,31 @@ class Common{
                 break;
             case 4:
                 $name = 'Lost';
+                break;
+        }
+        return $name;
+    }
+
+    public static function showNameStatusVN($statusID){
+        $name = '';
+        switch ($statusID){
+            case 0:
+                $name = 'Mới';
+                break;
+            case 5:
+                $name = 'Đang chờ';
+                break;
+            case 1:
+                $name = 'Gọi';
+                break;
+            case 2:
+                $name = 'Trích Dẫn';
+                break;
+            case 3:
+                $name = 'Thắng';
+                break;
+            case 4:
+                $name = 'Thua';
                 break;
         }
         return $name;

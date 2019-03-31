@@ -38,6 +38,10 @@ use App\Model\Role;
                     <div class="block__profile">
                         <h3 class="profile__name">@if($lead->gender == 0) Mr. @else Mrs/Miss. @endif {{ $lead->fullname }}</h3>
                         <p class="text-muted">
+                            <span class="text-label"><i class="fa  fa-calendar-minus-o"></i> Created</span>
+                            <span class="text-highlight">{{App\Common\Common::dateFormat($lead->created_at,'d-m-Y H:i')}}</span>
+                        </p>
+                        <p class="text-muted">
                             <span class="text-label"><i class="fa fa-retweet margin-r-5"></i> Relations</span>
                             <span class="text-highlight">{{$lead->relationship}}</span>
                         </p>
@@ -62,12 +66,12 @@ use App\Model\Role;
                             </span>
                         </p>
                         <p class="text-muted">
-                        <span class="text-label"><i class="fa fa-shield margin-r-5"></i> Product</span>
-                        <span class="text-highlight"> @if(!empty($lead->product)){{$lead->product}}@endif </span>
+                            <span class="text-label"><i class="fa fa-shield margin-r-5"></i> Product</span>
+                            <span class="text-highlight"> @if(!empty($lead->product)){{$lead->product}}@endif </span>
                         </p>
                         @if($lead->notes)<p class="text-muted">
-                        <span class="text-label"><i class="fa fa-file-text-o margin-r-5"></i> Notes</span>
-                        <span class="text-highlight">{{$lead->notes}}</span>
+                            <span class="text-label"><i class="fa fa-file-text-o margin-r-5"></i> Notes</span>
+                            <span class="text-highlight">{{$lead->notes}}</span>
                         </p>@endif
                     </div>
                 </div>
@@ -77,7 +81,6 @@ use App\Model\Role;
         </div>
         <!-- /.col -->
         <div class="col-md-4">
-
             <!-- Profile Image -->
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -123,6 +126,7 @@ use App\Model\Role;
         </div>
         <!-- /.col -->
     </div>
+
     <!-- /.row -->
     @if($deleteAction == true)
     <div id="popup-confirm" class="modal popup-confirm" tabindex="-1" role="dialog">

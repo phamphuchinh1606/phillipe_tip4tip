@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Common\Common;
+use App\Common\RoleCommon;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -38,8 +39,10 @@ class Lead extends Model
             ->join('products', 'products.id', 'leads.product_id')
             ->join('users', 'users.id', 'leads.tipster_id')
             ->join('regions', 'regions.id', 'leads.region_id')
+            ->leftjoin('assignments', 'assignments.lead_id', 'leads.id')
+            ->leftjoin('users as consultant', 'consultant.id' , 'assignments.consultant_id')
             ->where('leads.delete_is',0)
-            ->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region')
+            ->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region', 'consultant.fullname as consultant')
             ->orderBy('created_at', 'desc')
             ->get();
         return $leads;
@@ -57,19 +60,31 @@ class Lead extends Model
         return $leads;
     }
 
-    public static function leadsByTipster($tipsterId, $productId = null, $statusId = null){
+    public static function leadsByTipster($tipsterId, $productId = null, $statusId = null, $fromDate = null , $toDate = null){
         $query = DB::table('leads')->where('leads.tipster_id' , $tipsterId)
             ->join('products', 'products.id', 'leads.product_id')
             ->join('users', 'users.id', 'leads.tipster_id')
             ->join('regions', 'regions.id', 'leads.region_id')
+            ->leftjoin('assignments', 'assignments.lead_id', 'leads.id')
+            ->leftjoin('users as consultant', 'consultant.id' , 'assignments.consultant_id')
             ->where('leads.delete_is',0);
         if($productId != null){
             $query->where('leads.product_id',$productId);
         }
         if($statusId != null){
-            $query->where('leads.status',$statusId);
+            if(is_array($statusId)){
+                $query->whereIn('leads.status', $statusId);
+            }else{
+                $query->where('leads.status',$statusId);
+            }
         }
-        $leads = $query->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region')
+        if(isset($fromDate)){
+            $query->where('leads.created_at','>=',$fromDate.' 00:00:00');
+        }
+        if(isset($toDate)){
+            $query->where('leads.created_at','<=',$toDate.' 23:59:59');
+        }
+        $leads = $query->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region', 'consultant.fullname as consultant')
                         ->orderBy('created_at', 'desc')->get();
         return $leads;
     }
@@ -79,13 +94,15 @@ class Lead extends Model
             ->join('products', 'products.id', 'leads.product_id')
             ->join('users', 'users.id', 'leads.tipster_id')
             ->join('regions', 'regions.id', 'leads.region_id')
+            ->leftjoin('assignments', 'assignments.lead_id', 'leads.id')
+            ->leftjoin('users as consultant', 'consultant.id' , 'assignments.consultant_id')
             ->where('leads.delete_is',0)
             ->wherein('leads.id',function($query) use ($consultantId){
                 $query->select('lead_id')
                     ->from('assignments')
                     ->where('consultant_id', $consultantId);
             })
-            ->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region')
+            ->select('leads.*', 'products.name as product', 'users.fullname as tipster', 'regions.name as region', 'consultant.fullname as consultant')
             ->orderBy('created_at', 'desc')
             ->get();
         return $leads;
@@ -117,6 +134,9 @@ class Lead extends Model
             case 0:
                 $name = 'New';
                 break;
+            case 5:
+                $name = 'Assign';
+                break;
             case 1:
                 $name = 'Call';
                 break;
@@ -137,6 +157,9 @@ class Lead extends Model
         switch ($statusID){
             case 0:
                 $name = 'label-new';
+                break;
+            case 5:
+                $name = 'label-assign';
                 break;
             case 1:
                 $name = 'label-quote';
@@ -195,7 +218,7 @@ class Lead extends Model
         return $amount;
     }
 
-    public static function getTipsterHeighestLead($lead_sort = 'desc',$num = 5){
+    public static function getTipsterHeighestLead($userRoleId, $lead_sort = 'desc',$num = 5){
         $sql = "select users.id,users.username,users.fullname,users.avatar, tableTips.status, tableTips.countStatus, users.point
                 from users 
                     inner join (
@@ -210,10 +233,17 @@ class Lead extends Model
                                             limit ".$num."
                                      ) tableTips
                                      ON (tableTips.tipster_id = leads.tipster_id)
+                            where leads.status in (0,1,2,5)
                              group by leads.tipster_id,leads.status     
                         ) tableTips
                     on ( tableTips.tipster_id = users.id )
                     ";
+        $sqlWhere = " Where 1=1 ";
+        if(RoleCommon::checkRoleCommunity()){
+            $roleTypeIdTipster = RoleCommon::$ROLE_TYPE_ID_TIPSTER;
+            $sqlWhere.= "AND users.role_id in (select id from  roles where roletype_id = $roleTypeIdTipster)";
+            $sql = $sql . $sqlWhere;
+        }
         $tipsters = DB::select($sql);
         $result = array();
         if(isset($tipsters)){

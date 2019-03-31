@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
 
             $table->integer('region_id')->unsigned();
             $table->foreign('region_id')->references('id')->on('regions');
+            $table->string('description',1000)->nullable();
 
             $table->rememberToken();
             $table->timestamps();

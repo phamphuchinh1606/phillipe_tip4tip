@@ -6,6 +6,9 @@
     <link href="{{ asset('css/admin/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     <link rel="stylesheet" href="{{asset('css/admin/intlTelInput.css')}}">
+
+    <!-- Bootstrap WYSIHTML5 -->
+    <link href="{{ asset('css/admin/select2.min.css') }}" rel="stylesheet" type="text/css">
 @stop
 
 @section('javascript')
@@ -14,7 +17,13 @@
     <script src="{{ asset('js/admin/select2.full.min.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('js/admin/intlTelInput.js')}}"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="{{ asset('js/admin/select2.full.min.js') }}"></script>
     <script>
+        $(function () {
+            //Add text editor
+            $('.select2').select2();
+        });
         $(document).ready(function(){
             var date_input=$('input[name="birthday"]'); //our date input has the name "date"
             var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -243,8 +252,21 @@
                                 <div class="col-sm-6">
                                     <div class="form-group{{ $errors->has('department') ? ' has-error' : '' }}">
                                         <label>Department</label>
-                                        <select name="department" class="form-control" required>
-                                            <option value="" disabled selected>Please pick a department</option>
+                                        {{--<select name="department" class="form-control" required>--}}
+                                            {{--<option value="" disabled selected>Please pick a department</option>--}}
+                                            {{--@foreach($roletypes as $roletype)--}}
+                                                {{--<optgroup label="{{$roletype->name}}">--}}
+                                                    {{--@foreach($roles as $role)--}}
+                                                        {{--@if($role->roletype_id == $roletype->id)--}}
+                                                            {{--<option value="{{$role->id}}" @if( old('department') == $role->id) selected @endif>{{$role->name}}</option>--}}
+                                                        {{--@endif--}}
+                                                    {{--@endforeach--}}
+                                                {{--</optgroup>--}}
+                                            {{--@endforeach--}}
+                                        {{--</select>--}}
+
+                                        <select name="department[]" class="mdb-select form-control select2" multiple style="width: 100%;" required autofocus>
+                                            <option value="" disabled>Please pick a department</option>
                                             @foreach($roletypes as $roletype)
                                                 <optgroup label="{{$roletype->name}}">
                                                     @foreach($roles as $role)
@@ -255,6 +277,7 @@
                                                 </optgroup>
                                             @endforeach
                                         </select>
+
                                         @if ($errors->has('department'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('department') }}</strong>

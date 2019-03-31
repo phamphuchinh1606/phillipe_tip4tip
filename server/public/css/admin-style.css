@@ -84,6 +84,9 @@ tr.message__read{
 .label-status.label-lost:before{
     background-color: #d73925;
 }
+.label-status.label-assign:before{
+    background-color: #500a6f;
+}
 /*
 css custom form*/
 label{
@@ -98,7 +101,7 @@ input[type=date]::-webkit-inner-spin-button {
 .box-header,
 .box-body,
 .box-footer{
-    padding: 15px;
+    /*padding: 15px;*/
 }
 .form-control{
     border-radius: 3px;
@@ -263,6 +266,9 @@ Css for breadcrumb*/
 }
 .history-statuses > li.label-new .history__info{
     border-left: 4px solid #00c0ef;
+}
+.history-statuses > li.label-assign .history__info{
+    border-left: 4px solid #500a6f;
 }
 .history-statuses > li.label-quote .history__info{
     border-left: 4px solid #e08e0b;

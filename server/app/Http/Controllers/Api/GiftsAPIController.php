@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Model\Gift;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Common\Utils;
 
 class GiftsAPIController extends Controller
 {
@@ -16,8 +18,26 @@ class GiftsAPIController extends Controller
         return $gifts;
     }
 
-    public function show(Gift $id){
-        return $id;
+    public function listGift($tipsterId){
+        $gifts = [];
+        $tipster = User::find($tipsterId);
+        if(isset($tipster)){
+            $pathImage = asset(Utils::$PATH__IMAGE);
+            $gifts = Gift::getGiftBuyAble($tipster->point);
+            foreach ($gifts as $gift) {
+                $gift->path_image = $pathImage;
+            }
+        }
+        $jsonValue = [
+            "gifts" => $gifts,
+        ];
+        return response()->json($jsonValue, 201);
+    }
+
+    public function show($id){
+        $gift = Gift::getGiftByID($id);
+        $gift->path_image = asset(Utils::$PATH__IMAGE);
+        return $gift;
     }
 
     public function store(Request $request)

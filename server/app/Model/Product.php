@@ -11,6 +11,7 @@ class Product extends Model
     protected $table = 'products';
     protected $fillable = [
         'name',
+        'sort_num',
         'description',
         'price',
         'thumbnail',
@@ -28,6 +29,7 @@ class Product extends Model
             ->join('productcategories', 'products.category_id', 'productcategories.id')
             ->select('products.*', 'productcategories.name as category')
             ->where('products.delete_is', '<>', 1)
+            ->orderByRaw("ISNULL(sort_num), sort_num ASC")
             ->orderBy('created_at', 'desc')
         ->get();
         return $products;

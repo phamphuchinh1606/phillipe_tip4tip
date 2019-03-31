@@ -19,12 +19,13 @@
   var pieChartLeads = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ["{{$newPersen}}% New", "{{$callPersen}}% Call", "{{$quotePersen}}% Quote", "{{$winPersen}}% Win", "{{$lostPersen}}% Lost"],
+      labels: ["{{$newPersen}}% New", "{{$assignPersen}}% Assign", "{{$callPersen}}% Call", "{{$quotePersen}}% Quote", "{{$winPersen}}% Win", "{{$lostPersen}}% Lost"],
       datasets: [{
         label: '# of Votes',
-        data: [{{$new}}, {{$call}}, {{$quote}}, {{$win}}, {{$lost}}],
+        data: [{{$new}},{{$assign}} , {{$call}}, {{$quote}}, {{$win}}, {{$lost}}],
         backgroundColor: [
           '{{Common::colorStatus(0)}}',
+          '{{Common::colorStatus(5)}}',
           '{{Common::colorStatus(1)}}',
           '{{Common::colorStatus(2)}}',
           '{{Common::colorStatus(3)}}',
@@ -32,6 +33,7 @@
         ],
         borderColor: [
           '{{Common::colorStatus(0)}}',
+          '{{Common::colorStatus(5)}}',
           '{{Common::colorStatus(1)}}',
           '{{Common::colorStatus(2)}}',
           '{{Common::colorStatus(3)}}',
@@ -84,7 +86,7 @@
     <div class="row dashboard">
         <div class="col-sm-12 col-lg-6">
             <!-- LEADS LIST -->
-            <div class="box box-default">
+            <div class="box box-default" style="height:445px">
                 <div class="box-header with-border">
                     <h3 class="box-title">Recent Leads(5 Leads)</h3>
                 </div>
@@ -119,7 +121,7 @@
         </div>
         <div class="col-sm-12 col-lg-6">
             <!-- LEADS LIST -->
-            <div class="box box-default">
+            <div class="box box-default" style="height:445px">
                 <div class="box-header with-border">
                     <h3 class="box-title">Latest status (5 last Leads)</h3>
                 </div>
@@ -127,8 +129,8 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="chart-responsive">
-                                <canvas id="pieChartLeads"></canvas>
+                            <div class="chart-responsive" style="width: 650px;height:312px;">
+                                <canvas id="pieChartLeads" ></canvas>
                             </div>
                             <!-- ./chart-responsive -->
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\RoleCommon;
 use App\Model\LogActivity;
 use App\Model\Role;
 use App\User;
@@ -19,7 +20,7 @@ class LogActivitiesController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $logActivities = [];
         $deleteAction = false;
-        if($roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleAdmin()){
             $logActivities = LogActivity::getAllLogs(100);
             $deleteAction = true;
         }else{

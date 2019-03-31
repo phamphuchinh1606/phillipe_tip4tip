@@ -116,6 +116,10 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web/route_common.php'));
 
+        Route::middleware('web','checkRole')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/route_department.php'));
+
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Common\Common;
+use App\Common\RoleCommon;
 use App\Common\Utils;
+use App\Model\Gift;
 use App\Model\Lead;
 use App\Model\PointHistory;
 use App\Model\Product;
@@ -37,13 +39,13 @@ class TipstersController extends Controller
         $deleteAction = false;
         $createAction = false;
 
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin' || $roleAuth->code == 'ambassador'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin() || RoleCommon::checkRoleAmbassador()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
         }
 
-        if($roletypeAuth->code == 'consultant'){
+        if(RoleCommon::checkRoleaConsultant()){
             $editAction = true;
         }
 
@@ -67,7 +69,7 @@ class TipstersController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $createAction = false;
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin' || $roleAuth->code == 'ambassador'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin() || RoleCommon::checkRoleAmbassador()){
             $createAction = true;
         }
 
@@ -109,8 +111,10 @@ class TipstersController extends Controller
         $user['vote'] = 0;
         $user['region_id'] = $request->region;
         $user['role_id'] = $request->department;
+        $user['create_by_id'] = Auth::user()->id;
         $user['delete_is'] = 0;
         $user['reference_lang'] = $request->reference_lang;
+        $user['description'] = $request->description;
         if(isset($request->birthday) && null != $request->birthday){
             $user['birthday'] = \Carbon\Carbon::createFromFormat('d/m/Y',$request->birthday);
         }
@@ -178,7 +182,7 @@ class TipstersController extends Controller
             $history['create'] = Common::dateFormat($history->created_at);
 
         }
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin' || $roleAuth->code == 'ambassador' || $roletypeAuth->code == 'consultant'){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin() || RoleCommon::checkRoleAmbassador() || RoleCommon::checkRoleaConsultant()){
             $deleteAction = true;
             $editAction = true;
         }
@@ -186,13 +190,23 @@ class TipstersController extends Controller
             $editAction = true;
         }
 
+        //Show list lead
+        $listStatus = [Utils::$lead_process_status_new,Utils::$lead_process_status_assign, Utils::$lead_process_status_call, Utils::$lead_process_status_quote];
+        $leadsProcess = Lead::leadsByTipster($id, null , $listStatus);
+
+        //Get all Gift
+        $gifts = Gift::getAllGifts();
+        $giftsBuyAble = Gift::getGiftBuyAble($user->point);
+
         return view('tipsters.show', compact('user', 'id'))->with([
             'role' => $role,
             'roletype' => $roletype,
             'deleteAction' => $deleteAction,
             'editAction' => $editAction,
-//            'leads' =>$leads,
+            'leadsProcess' =>$leadsProcess,
             'histories' =>$histories,
+            'gifts' => $gifts,
+            'giftsBuyAble' => $giftsBuyAble
         ]);
 
     }
@@ -216,18 +230,18 @@ class TipstersController extends Controller
         if($user->birthday != null){
             $user->birthday = Common::dateFormat($user->birthday,'d/m/Y');
         }
-        if($roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleAdmin()){
             $isAdmin = true;
         }
-        if($roleAuth->code == 'community' || $roleAuth->code == 'admin' ||
-            $roletypeAuth->code == 'consultant' || $roleAuth->code == 'ambassador' || $user->id == $auth->id){
+        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin() || RoleCommon::checkRoleaConsultant()
+            || RoleCommon::checkRoleAmbassador() || $user->id == $auth->id){
             $editAction = true;
         }
-        if($roleAuth->code == 'tipster' || $user->id == $auth->id){
+        if(RoleCommon::checkRoleTipster() || $user->id == $auth->id){
             $editPoints = false;
         }
         $roles = Role::getAllRole();
-        if($roleAuth->code == 'tipster_normal'){
+        if(RoleCommon::checkRoleTipsterNormal()){
             $roles = Role::getRoleByCode('tipster_normal');
         }
 
@@ -309,6 +323,7 @@ class TipstersController extends Controller
             request()->avatar->move(Utils::pathUploadImage('images/upload'), $imageName);
         }
         $user->avatar = $imageName;
+        $user->description = $request->description;
         $user->save();
         return redirect()->route('tipsters.index')->with([
             'success' => 'Tipster was updated successfully.',

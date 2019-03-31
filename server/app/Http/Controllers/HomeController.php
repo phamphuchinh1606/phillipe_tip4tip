@@ -46,18 +46,18 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $roleAuth = Role::getInfoRoleByID($user->role_id);
-        $isLoginTipster = RoleCommon::checkRoleTipster($roleAuth->code);
+        $isLoginTipster = RoleCommon::checkRoleTipster();
 
-        if(RoleCommon::checkRoleAdmin($roleAuth->code)){
+        if(RoleCommon::checkRoleAdmin()){
             $recentleads = Lead::getRecentLeads(5);
             $statusByRecentTipster = Lead::sumStatusByRecentLead(5);
         }else{
-            if(RoleCommon::checkRoleaConsultant($roleAuth->code)){
+            if(RoleCommon::checkRoleaConsultant()){
                 $recentleads = Lead::getRecentLeadsByConsultant($user->id,5);
                 $statusByRecentTipster = Lead::sumStatusByConsultant($user->id,5);
             }else{
                 $recentleads = Lead::getRecentLeadsByTipster($user->id,5);
-                $statusByRecentTipster =  Lead::sumStatusByTipsterRecentLead($user->id,5);
+                $statusByRecentTipster =  Lead::sumStatusByTipsterRecentLead($user->id, null,5);
             }
         }
         foreach ($recentleads as $recentlead){
@@ -78,14 +78,14 @@ class HomeController extends Controller
         if(isset($request->lead_sort)){
             $lead_sort = $request->lead_sort;
         }
-        $mostactivetipsters = Lead::getTipsterHeighestLead($lead_sort,5);
-
-//        dd($statusByRecentTipster);
+        $mostactivetipsters = Lead::getTipsterHeighestLead($user->role_id,$lead_sort,5);
 
         $highestPointTipsters = User::getHighestPointTipster();
 
         $new = 0;
         $newPersen = 0;
+        $assign = 0;
+        $assignPersen = 0;
         $call =0;
         $callPersen = 0;
         $quote = 0;
@@ -100,6 +100,9 @@ class HomeController extends Controller
             switch ($sumStatus->status) {
                 case 0:
                     $new = $sumStatus->countStatus;
+                    break;
+                case 5:
+                    $assign = $sumStatus->countStatus;
                     break;
                 case 1:
                     $call = $sumStatus->countStatus;
@@ -116,6 +119,7 @@ class HomeController extends Controller
             }
         }
         if($new > 0) $newPersen = $new*100/$totalCount;
+        if($assign > 0) $assignPersen = $assign*100/$totalCount;
         if($call > 0) $callPersen = $call*100/$totalCount;
         if($quote > 0) $quotePersen = $quote*100/$totalCount;
         if($win > 0) $winPersen = $win*100/$totalCount;
@@ -143,11 +147,13 @@ class HomeController extends Controller
             'mostactivetipsters' => $mostactivetipsters,
             'statusByRecentTipster' => $statusByRecentTipster,
             'new' => $new,
+            'assign' => $assign,
             'call' => $call,
             'quote' => $quote,
             'win' => $win,
             'lost' => $lost,
             'newPersen' => $newPersen,
+            'assignPersen' => $assignPersen,
             'callPersen' => $callPersen,
             'quotePersen' => $quotePersen,
             'winPersen' => $winPersen,

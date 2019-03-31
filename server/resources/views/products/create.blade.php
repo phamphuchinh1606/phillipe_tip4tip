@@ -58,6 +58,10 @@
                                 <input name="name" type="text" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label>Sort Num</label>
+                                <input name="sort_num" type="number" step="1" value="1" class="form-control" required>
+                            </div>
+                            <div class="form-group">
                                 <label>Description</label>
                                 <textarea name="description" class="form-control" rows="5"></textarea>
                             </div>

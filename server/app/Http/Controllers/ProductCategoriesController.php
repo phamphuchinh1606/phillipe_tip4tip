@@ -71,7 +71,7 @@ class ProductCategoriesController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
         $deleteAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
         }

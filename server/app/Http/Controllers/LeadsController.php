@@ -44,7 +44,7 @@ class LeadsController extends Controller
         if($roleAuth->code == 'admin'){
             $leads= Lead::getAllLead();
         }else{
-            if(RoleCommon::checkRoleaConsultant($roleAuth->code)){
+            if(RoleCommon::checkRoleaConsultant()){
                 $leads= Lead::leadsByConsultant($auth->id);
             }else{
                 $leads= Lead::leadsByTipster($auth->id);
@@ -94,14 +94,15 @@ class LeadsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin' || $roletypeAuth->code == 'tipster'){
+        if(RoleCommon::checkRoleSaleAdmin()|| RoleCommon::checkRoleTipster()){
             $createAction = true;
         }
 
         $tipsters = DB::table('users')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roletypes.id', 'roles.roletype_id')
-            ->select('users.*', 'roles.name', 'roletypes.code')
+            ->leftjoin('regions','regions.id','users.region_id')
+            ->select('users.*', 'roles.name', 'roletypes.code','regions.name as region_name')
             ->where('roletypes.code','tipster')
             ->get();
         $regions = Region::getAllRegion();
@@ -154,7 +155,7 @@ class LeadsController extends Controller
     private function checkRoleLeadByTipster($leadId){
         $auth = Auth::user();
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
-        if(RoleCommon::checkRoleTipster($roleAuth->code)){
+        if(RoleCommon::checkRoleTipster()){
             $lead = Lead::getLeadByID($leadId);
             if(isset($lead) && $lead->tipster_id == $auth->id){
                 return true;
@@ -217,11 +218,11 @@ class LeadsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $roletypeAuth = RoleType::getNameByID($roleAuth->roletype_id);
         $editLead = false;
-        if(RoleCommon::checkRoleEditLead($roleAuth->code)){
+        if(RoleCommon::checkRoleEditLead()){
             $editLead = true;
         }
         $editAction = false;
-        if(RoleCommon::checkRoleEditActionLead($roleAuth->code)){
+        if(RoleCommon::checkRoleEditActionLead()){
             $editAction = true;
         }
 
@@ -263,7 +264,7 @@ class LeadsController extends Controller
         }
         $regions = Region::getAllRegion();
         
-        if(RoleCommon::checkRoleTipster($roleAuth->code)){
+        if(RoleCommon::checkRoleTipster()){
            $tipsters = User::getTipsterById($auth->id);
         }else{
             $tipsters = User::getAllTipster();
@@ -440,7 +441,14 @@ class LeadsController extends Controller
         $tipster = $request->tipster;
         $lead = Lead::find($request->lead);
         $lead->tipster_id = $tipster;
+        $result = count(LeadProcess::checkExist($lead, Utils::$lead_process_status_assign));
+        $lead->status = Utils::$lead_process_status_assign;
+        if($result == 0){
+            $process['lead_id'] = $lead->id;
+            $process['status_id'] = Utils::$lead_process_status_assign;
+            LeadProcess::create($process);
+        }
         $lead->save();
-        return back()->with('Updated tipster successfully.');
+        return back()->with('success-update-tipster','Updated tipster successfully.');
     }
 }

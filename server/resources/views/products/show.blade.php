@@ -35,6 +35,13 @@
                     <hr>
 
                     <p class="text-muted">
+                        <strong><i class="fa fa-sort-numeric-asc"></i> Sort num: </strong>
+                        {{$product->sort_num}}
+                    </p>
+
+                    <hr>
+
+                    <p class="text-muted">
                         <strong><i class="fa fa-info-circle margin-r-5"></i> Description:</strong>
                         {{$product->description}}
 

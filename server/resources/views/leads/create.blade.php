@@ -39,6 +39,11 @@
         //     console.log(countryData.dialCode);
         //     // $('#phone').val();
         // });
+        $("select[name=tipster]").on('change',function(){
+            var tipsterId = $(this).val();
+            $('div.tipster_info').addClass('hide');
+            $('div#'+tipsterId).removeClass('hide');
+        });
     </script>
 @endsection
 
@@ -212,10 +217,13 @@
                                 <select name="tipster" class="form-control">
                                     {{--<option  value="" disabled selected>Please pick a tipster</option>--}}
                                     @foreach($tipsters as $tipster)
-                                        <option value="{{$tipster->id}}" @if(Auth::user()->id == $tipster->id) selected @endif>{{$tipster->fullname}} - {{$tipster->username}} </option>
+                                        <option value="{{$tipster->id}}" @if(Auth::user()->id == $tipster->id) selected @endif>
+                                            {{$tipster->fullname}} - {{$tipster->username}}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
+                            @include('leads.__tipster_info',['tipsters' => $tipsters])
                         </div>
                         <!-- /.box-body -->
                     </div>

@@ -46,6 +46,7 @@
                     <tr>
                         <th>No.</th>
                         <th>Lead</th>
+                        <th>Consultant</th>
                         <th>Product</th>
                         <th>Tipster</th>
                         <th>Date</th>
@@ -59,7 +60,10 @@
                         <?php $i++ ?>
                         <tr>
                             <td width="40" align="center">{{$i}}</td>
-                            <td>{{$lead->fullname}}</td>
+                            <td>
+                                <a href="{{route('leads.show', $lead->id)}}">{{$lead->fullname}}</a>
+                            </td>
+                            <td>{{$lead->consultant}}</td>
                             <td>{{ $lead->product }}</td>
                             <td>{{ $lead->tipster }}</td>
                             <td>{{ Common::dateFormat($lead->created_at, 'd F Y')}}</td>

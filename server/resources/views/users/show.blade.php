@@ -131,6 +131,17 @@ use App\Common\Utils;
         </div>
         <!-- /.col -->
     </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            @if($roleCommunity)
+                @include('users.__list_tipster')
+            @elseif($roleSale)
+                @include('users.__list_consultant')
+            @endif
+        </div>
+    </div>
+
     <!-- /.row -->
     @if($deleteAction == true)
     {{--popup confirm--}}

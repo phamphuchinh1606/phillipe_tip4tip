@@ -33,11 +33,22 @@ class LeadsAPIController extends Controller
         $statusId = "";
         if(isset($request->status_id)){
             $statusId = $request->status_id;
+            if(strpos($statusId, ',') !== false){
+                $statusId = explode(',',$statusId);
+            }
         }
-        $leads = Lead::leadsByTipster($id,$productId,$statusId);
+        $fromDate = $request->from_date;
+        $toDate = $request->to_date;
+        $leads = Lead::leadsByTipster($id,$productId,$statusId, $fromDate, $toDate);
+        $tipster = User::find($id);
         foreach ($leads as $lead) {
             $lead->date = Common::dateFormat($lead->created_at, 'd/m/Y');
-            $lead->status_text = Common::showNameStatus($lead->status);
+
+            if(isset($tipster) && $tipster->preferred_lang == 'vn'){
+                $lead->status_text = Common::showNameStatusVN($lead->status);
+            }else{
+                $lead->status_text = Common::showNameStatus($lead->status);
+            }
             $lead->status_color = Common::colorStatus($lead->status);
         }
         return $leads;

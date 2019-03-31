@@ -17,10 +17,27 @@ class Gift extends Model
     ];
 
     public static function getAllGifts(){
-        $gifts = Gift::all();
+        $gifts = Gift::leftjoin('giftcategories','giftcategories.id','gifts.category_id')
+            ->where('gifts.delete_is',0)
+            ->select('gifts.*','giftcategories.name as category_name')
+            ->get();
         return $gifts;
     }
+
+    public static function getGiftBuyAble($point){
+        $gifts = Gift::leftjoin('giftcategories','giftcategories.id','gifts.category_id')
+            ->where('gifts.delete_is',0)
+            ->where('gifts.point', '<=' ,$point)
+            ->orderBy('category_id')
+            ->select('gifts.*','giftcategories.name as category_name')
+            ->get();
+        return $gifts;
+    }
+
     public static function getGiftByID($id){
-        return Gift::find($id);
+        return Gift::leftjoin('giftcategories','giftcategories.id','gifts.category_id')
+            ->where('gifts.id', $id)
+            ->select('gifts.*','giftcategories.name as category_name')
+            ->first();
     }
 }

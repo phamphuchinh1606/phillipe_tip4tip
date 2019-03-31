@@ -41,6 +41,7 @@ Route::post('/leads/delete/{id}', 'Api\LeadsAPIController@delete');
  *======================== */
 Route::get('/gifts', 'Api\GiftsAPIController@index');
 Route::get('/gifts/{id}', 'Api\GiftsAPIController@show');
+Route::get('/gifts-list/{tipsterId}','Api\GiftsAPIController@listGift');
 //Route::post('/gifts/', 'Api\GiftsAPIController@store');
 //Route::patch('/gifts/{id}', 'Api\GiftsAPIController@update');
 //Route::delete('/gifts/{id}', 'Api\GiftsAPIController@destroy');

@@ -24,7 +24,6 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-
         'fullname',
         'avatar',
         'gender',
@@ -33,6 +32,7 @@ class User extends Authenticatable
         'phone',
         'role_id',
         'region_id',
+        'create_by_id',
         'delete_is'
     ];
 
@@ -70,31 +70,48 @@ class User extends Authenticatable
         $user['roletypeCode'] = $roletypeUser->code;
         return $user;
     }
-    public static function getAllConsultant(){
-        $consultants = User::select('users.*')
+
+    public static function getAllConsultant($userId = null){
+        $query = User::select('users.*')
+            ->leftjoin('user_roles','user_roles.user_id','users.id')
+            ->leftjoin('roles as roles2', 'roles2.id','user_roles.role_id')
+            ->leftjoin('roletypes as roletypes2', 'roles2.roletype_id', 'roletypes2.id')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roles.roletype_id', 'roletypes.id')
             ->where('roletypes.code' ,'consultant')
-            ->select('users.*', 'roles.code as role', 'roletypes.name as roletype')
+            ->OrWhere('roletypes2.code','manager');
+        if(isset($userId)){
+            $query->where('users.create_by_id',$userId);
+        }
+        $consultants = $query->select('users.*', 'roles.code as role', 'roletypes.name as roletype')
+            ->distinct()
             ->get();
         return $consultants;
     }
     public static function getAllManager(){
         $managers = User::select('users.*')
+            ->leftjoin('user_roles','user_roles.user_id','users.id')
+            ->leftjoin('roles as roles2', 'roles2.id','user_roles.role_id')
+            ->leftjoin('roletypes as roletypes2', 'roles2.roletype_id', 'roletypes2.id')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roles.roletype_id', 'roletypes.id')
             ->where('roletypes.code' ,'manager')
+            ->whereOr('roletypes2.code','manager')
             ->select('users.*', 'roles.code as role', 'roletypes.name as roletype')
             ->get();
         return $managers;
     }
-    public static function getAllUserNotTipster(){
-        $managers = User::select('users.*')
+    public static function getAllUserNotTipster($userId = null){
+        $query = User::select('users.*')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roles.roletype_id', 'roletypes.id')
-            ->where('roletypes.code', '<>', 'tipster')
-            ->select('users.*', 'roles.name as role', 'roletypes.name as roletype')
+            ->where('roletypes.code', '<>', 'tipster');
+        if(isset($userId)){
+            $query->where('create_by_id',$userId);
+        }
+        $managers = $query->select('users.*', 'roles.name as role', 'roletypes.name as roletype')
             ->get();
+
         return $managers;
     }
 
@@ -108,20 +125,25 @@ class User extends Authenticatable
         return $roles;
     }
 
-    public static function getAllTipster(){
-        $tipsters = User::select('users.*')
+    public static function getAllTipster($userId = null){
+        $query = User::select('users.*','regions.name as region_name')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roles.roletype_id', 'roletypes.id')
-            ->where('roletypes.code' ,'tipster')->orderBy('created_at', 'desc')
-            ->orderBy('created_at', 'desc')
+            ->leftjoin('regions','regions.id','users.region_id')
+            ->where('roletypes.code' ,'tipster');
+        if(isset($userId)){
+            $query->where('users.create_by_id',$userId);
+        }
+        $tipsters = $query->orderBy('created_at', 'desc')
             ->get();
         return $tipsters;
     }
 
     public static function getTipsterById($tipsterId){
-        $tipsters = User::select('users.*')
+        $tipsters = User::select('users.*','regions.name as region_name')
             ->join('roles', 'users.role_id', 'roles.id')
             ->join('roletypes', 'roles.roletype_id', 'roletypes.id')
+            ->leftjoin('regions','regions.id','users.region_id')
             ->where('roletypes.code' ,'tipster')
             ->where('users.id' ,$tipsterId)
             ->orderBy('created_at', 'desc')

@@ -39,6 +39,17 @@ class LoginAPIController extends Controller
 		        ];
 	        	return response()->json($jsonValue, 201);
 	        }
+            if (Auth::attempt(['username' => $value['email'], 'password' => $value['password'], 'delete_is' => 0, 'role_id' => 9], $remember)) {
+                $user = Auth::user();
+                $user->path_image = asset(Utils::$PATH__IMAGE);
+                $user->date = Common::dateFormat($user->birthday, 'd F Y');
+                $jsonValue = [
+                    "message" => "Login success",
+                    "status" => "0",
+                    "user_info" => $user,
+                ];
+                return response()->json($jsonValue, 201);
+            }
         }
         $jsonValue = [
             "message" => "Your email, password incorrect or Your account does not exit.",

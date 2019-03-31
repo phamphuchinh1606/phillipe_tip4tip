@@ -7,12 +7,12 @@
 @section('content')
     <div class="row">
         @include('messages.partials.column-left-mail')
-                    <div class="box-tools pull-right">
-                        <div class="has-feedback">
-                            <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                            <!-- <span class="glyphicon glyphicon-search form-control-feedback"></span> -->
-                        </div>
-                    </div>
+                    {{--<div class="box-tools pull-right">--}}
+                        {{--<div class="has-feedback">--}}
+                            {{--<input type="text" class="form-control input-sm" placeholder="Search Mail">--}}
+                            {{--<!-- <span class="glyphicon glyphicon-search form-control-feedback"></span> -->--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <!-- /.box-tools -->
                 </div>
                 <!-- /.box-header -->

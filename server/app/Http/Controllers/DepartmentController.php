@@ -3,37 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Common\RoleCommon;
-use App\Model\Region;
-use App\Model\Role;
 use Illuminate\Http\Request;
 use Auth;
+use App\Model\{Role,RoleType,Region};
 
-class RegionsController extends Controller
+class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $roleList;
+
+    public function __construct()
+    {
+        $this->roleList = [RoleCommon::$ROLE_TYPE_ID_MANAGER,RoleCommon::$ROLE_TYPE_ID_CONSULTANT];
+    }
+
     public function index()
     {
-        $auth = Auth::user();
-        $roleAuth = Role::getInfoRoleByID($auth->role_id);
-        $editAction = false;
-        $deleteAction = false;
-        $createAction = false;
-        if(RoleCommon::checkRoleCommunity() || RoleCommon::checkRoleAdmin()){
-            $editAction = true;
-            $deleteAction = true;
-            $createAction = true;
-        }
-        $regions = Region::getAllRegion();
-        return view('regions.index',
+        $roles = Role::getInfoRoleByListID($this->roleList);
+        return view('departments.index',
             [
-                'regions' => $regions,
-                'editAction' => $editAction,
-                'deleteAction' => $deleteAction,
-                'createAction' => $createAction
+                'roles' => $roles
             ] );
     }
 
@@ -44,8 +32,10 @@ class RegionsController extends Controller
      */
     public function create()
     {
-        //
-        return view('regions.create');
+        $roleTypes = RoleType::getByListID($this->roleList);
+        return view('departments.create',[
+            'roleTypes' => $roleTypes
+        ]);
     }
 
     /**
@@ -61,10 +51,12 @@ class RegionsController extends Controller
             'name' => 'required',
             'code' => 'required',
         ]);
-        $region['name'] = $request->name;
-        $region['code'] = $request->code;
-        Region::create($region);
-        return redirect()->route('regions.index')->with('success', 'Created region successfully.');
+        $role = new Role();
+        $role->name = $request->name;
+        $role->code = $request->code;
+        $role->roletype_id = $request->role_type_id;
+        $role->save();
+        return redirect()->route('departments.index')->with('success', 'Created department successfully.');
     }
 
     /**
@@ -87,10 +79,10 @@ class RegionsController extends Controller
         }
         $region = Region::find($id);
         return view('regions.show', [
-                'region' => $region,
-                'editAction' => $editAction,
-                'deleteAction' => $deleteAction,
-                'createAction' => $createAction
+            'region' => $region,
+            'editAction' => $editAction,
+            'deleteAction' => $deleteAction,
+            'createAction' => $createAction
         ]);
     }
 
@@ -103,8 +95,12 @@ class RegionsController extends Controller
     public function edit($id)
     {
         //
-        $region = Region::find($id);
-        return view('regions.edit', compact('region', $region));
+        $roleTypes = RoleType::getByListID($this->roleList);
+        $role = Role::getInfoRoleByID($id);
+        return view('departments.edit',[
+            'role' => $role,
+            'roleTypes' => $roleTypes
+        ]);
     }
 
     /**
@@ -117,25 +113,18 @@ class RegionsController extends Controller
     public function update(Request $request, $id)
     {
         //
-
-        $region = Region::find($id);
-        $name = $request->get('name');
-        $code = $request->get('code');
-        if($code !== $region->code){
-            $validate = $this->validate(request(),[
-                'code' => 'required|unique:regions',
-            ]);
+        $validate = $this->validate(request(),[
+            'name' => 'required',
+            'code' => 'required',
+        ]);
+        $role = Role::find($id);
+        if(isset($role)){
+            $role->name = $request->name;
+            $role->code = $request->code;
+            $role->roletype_id = $request->role_type_id;
+            $role->save();
         }
-        if($name !== $region->name){
-            $validate = $this->validate(request(),[
-                'name' => 'required|unique:regions',
-            ]);
-        }
-
-        $region->name = $name;
-        $region->code = $code;
-        $region->save();
-        return redirect()->route('regions.index')->with('success', 'Update region successfully.');
+        return redirect()->route('departments.index')->with('success', 'Update department successfully.');
     }
 
     /**

@@ -19,6 +19,11 @@ use App\Common\Common;
           $('#clickHistory').on('click', function () {
             $('#showHistory').slideToggle(300);
           });
+            $("select[name=tipster]").on('change',function(){
+                var tipsterId = $(this).val();
+                $('div.tipster_info').addClass('hide');
+                $('div#'+tipsterId).removeClass('hide');
+            });
         })
 
         $("#phone").intlTelInput({
@@ -76,6 +81,12 @@ use App\Common\Common;
                                     <div class="form-group">
                                         <label>Full name</label>
                                         <input name="fullname" type="text" class="form-control" value="{{$lead->fullname}}" placeholder="Enter ...">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Created Date</label>
+                                        <label class="form-control">{{App\Common\Common::dateFormat($lead->created_at,'d-m-Y H:i')}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -196,17 +207,23 @@ use App\Common\Common;
                             <form method="get" action="{{route('leads.updateTipster')}}">
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{$lead->id}}" name="lead">
-                                <div class="form-inline-simple">
+                                @if (\Session::has('success-update-tipster'))
+                                    <label class="label label-success">{{ \Session::get('success-update-tipster') }}</label>
+                                @endif
+                                <div class="form-inline-simple form-group">
                                     <select id="tipsterAnchor" name="tipster" class="form-control" @if(!$editAction) disabled="disabled" @endif>
-                                        <option value="" disabled selected>Please pick a tipster</option>
+                                        <option value="" disabled selected>Please pick a tipster11</option>
                                         @foreach($tipsters as $tipster)
-                                            <option value="{{$tipster->id}}" @if($tipster->id == $lead->tipster_id) selected @endif>{{$tipster->fullname}} - {{$tipster->username}}</option>
+                                            <option value="{{$tipster->id}}" @if($tipster->id == $lead->tipster_id) selected @endif>
+                                                <a href="{{route('tipsters.edit',['id' => $tipster->id])}}">{{$tipster->fullname}} - {{$tipster->username}}</a>
+                                            </option>
                                         @endforeach
                                     </select>
                                     @if($editAction)
                                         <button type="submit" class="btn btn-primary pull-right" title="Update">Update</button>
                                     @endif
                                 </div>
+                                @include('leads.__tipster_info',['tipsters' => $tipsters, 'defaultValue' => $lead->tipster_id])
                             </form>
                         </div>{{--/Block update tipster--}}
                         {{--Block assign--}}
@@ -215,6 +232,9 @@ use App\Common\Common;
                             <form role="form" method="post" action="{{route('assignments.store')}}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="lead" value="{{$lead->id}}">
+                                @if (\Session::has('success'))
+                                    <label class="label label-success">{{ \Session::get('success') }}</label>
+                                @endif
                                 <div class="form-inline-simple">
                                     @if($editAction)
                                         <select name="consultant" class="form-control">
@@ -250,12 +270,13 @@ use App\Common\Common;
                                 <input type="hidden" name="product_id" value="{{$lead->product_id}}">
                                 <div class="form-inline-simple">
                                     @if($editAction)
-                                        <select name="status" class="form-control">
-                                            <option value="" disabled selected>Please pick a status</option>
-                                            @for($i=0; $i < 5; $i++)
-                                                <option value="{{$i}}" @if($i == $lead->status) selected @endif>{{Common::showNameStatus($i)}}</option>
-                                            @endfor
-                                        </select>
+                                        @include('common.__select_lead_status',['defaultValue' =>  $lead->status])
+                                        {{--<select name="status" class="form-control">--}}
+                                            {{--<option value="" disabled selected>Please pick a status</option>--}}
+                                            {{--@for($i=0; $i <= 5; $i++)--}}
+                                                {{--<option value="{{$i}}" @if($i == $lead->status) selected @endif>{{Common::showNameStatus($i)}}</option>--}}
+                                            {{--@endfor--}}
+                                        {{--</select>--}}
                                         <button type="button" class="pull-right btn btn-primary" id="statusChange">Update</button>
                                     @else
                                         <select name="status" class="form-control" disabled="disabled">

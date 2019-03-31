@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 0)->default(0);
             $table->binary('thumbnail')->nullable();;
             $table->decimal('quality', 8, 0)->default(0);
-
             $table->integer('category_id')->unsigned();
+            $table->integer('sort_num')->nullable();
             $table->foreign('category_id')->references('id')->on('productcategories');
             $table->timestamps();
         });

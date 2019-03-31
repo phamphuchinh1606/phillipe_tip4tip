@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\RoleCommon;
 use App\Model\Product;
 use App\Model\ProductCategory;
 use App\Model\Role;
@@ -26,7 +27,7 @@ class ProductsController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
@@ -35,8 +36,10 @@ class ProductsController extends Controller
             ->join('productcategories', 'products.category_id', 'productcategories.id')
             ->select('products.*', 'productcategories.name as category')
             ->where('products.delete_is', '<>', 1)
+            ->orderByRaw("ISNULL(sort_num), sort_num ASC")
             ->orderBy('created_at', 'desc')
         ->get();
+
         return view('products.index')->with([
             'products'=>$products,
             'editAction' => $editAction,
@@ -81,6 +84,7 @@ class ProductsController extends Controller
         $product['description'] = $request->description;
         $product['price'] = 0;
         $product['quality'] = 0;
+        $product['sort_num'] = $request->sort_num;
         $imageName = 'no_image_available.jpg';
         if(!empty(request()->thumbnail)){
             $imageName = time().'.'.request()->thumbnail->getClientOriginalExtension();
@@ -105,7 +109,7 @@ class ProductsController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
         $deleteAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
         }
@@ -133,7 +137,7 @@ class ProductsController extends Controller
         $auth = Auth::user();
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
         }
         $product = Product::find($id);
@@ -161,6 +165,7 @@ class ProductsController extends Controller
         ]);
         $product = Product::find($id);
         $product->name = $request->get('name');
+        $product->sort_num = $request->get('sort_num');
         $product->description = $request->get('description');
         $price = $request->get('price');
         if(empty($price)){

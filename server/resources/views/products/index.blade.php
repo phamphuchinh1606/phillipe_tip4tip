@@ -55,6 +55,7 @@
                         <th>No.</th>
                         <th>Thumbnail</th>
                         <th>Product name</th>
+                        <th>Sort Num</th>
                         <th>Description</th>
                         <th>Category</th>
                         <th>Actions</th>
@@ -76,6 +77,7 @@
                                 </span>
                             </td>
                             <td>{{$product->name}}</td>
+                            <td class="text-center" style="width: 100px">{{$product->sort_num}}</td>
                             <td style="width: 300px;">{{{ strip_tags(str_limit($product->description, 110)) }}}</td>
                             <td>{{$product->category}}</td>
 

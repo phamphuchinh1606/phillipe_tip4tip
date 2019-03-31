@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\RoleCommon;
 use App\Model\Lead;
 use App\Model\LogsSentMessageTemplate;
 use App\Model\MessageTemplate;
@@ -22,7 +23,7 @@ class MessageTemplatesController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
@@ -43,7 +44,7 @@ class MessageTemplatesController extends Controller
         $auth = Auth::user();
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $createAction = true;
         }
 
@@ -85,7 +86,7 @@ class MessageTemplatesController extends Controller
         $roleAuth = Role::getInfoRoleByID($auth->role_id);
         $editAction = false;
         $deleteAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
         }
@@ -130,7 +131,7 @@ class MessageTemplatesController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;
@@ -153,7 +154,7 @@ class MessageTemplatesController extends Controller
         $editAction = false;
         $deleteAction = false;
         $createAction = false;
-        if($roleAuth->code == 'sale' || $roleAuth->code == 'admin'){
+        if(RoleCommon::checkRoleSaleAdmin()){
             $editAction = true;
             $deleteAction = true;
             $createAction = true;

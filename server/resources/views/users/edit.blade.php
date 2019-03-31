@@ -9,12 +9,18 @@ $auth = Auth::user();
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     <link rel="stylesheet" href="{{asset('css/admin/intlTelInput.css')}}">
+    <link href="{{ asset('css/admin/select2.min.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('javascript')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('js/admin/intlTelInput.js')}}"></script>
+    <script src="{{ asset('js/admin/select2.full.min.js') }}"></script>
     <script>
+        $(function () {
+            //Add text editor
+            $('.select2').select2();
+        });
         $(document).ready(function(){
             var date_input=$('input[name="birthday"]'); //our date input has the name "date"
             var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -212,18 +218,38 @@ $auth = Auth::user();
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Department</label>
-                                    <select class="form-control" name="department">
-                                        <option value="" disabled selected>Please pick a department</option>
+                                    {{--<select class="form-control" name="department">--}}
+                                        {{--<option value="" disabled selected>Please pick a department</option>--}}
+                                        {{--@foreach($roletypes as $roletype)--}}
+                                            {{--<optgroup label="{{$roletype->name}}">--}}
+                                                {{--@foreach($roles as $role)--}}
+                                                    {{--@if($role->roletype_id == $roletype->id)--}}
+                                                        {{--<option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>--}}
+                                                    {{--@endif--}}
+                                                {{--@endforeach--}}
+                                            {{--</optgroup>--}}
+                                        {{--@endforeach--}}
+                                    {{--</select>--}}
+                                    <select name="department[]" class="mdb-select form-control select2" multiple style="width: 100%;" required autofocus>
+                                        <option value="" disabled>Please pick a department</option>
                                         @foreach($roletypes as $roletype)
                                             <optgroup label="{{$roletype->name}}">
                                                 @foreach($roles as $role)
                                                     @if($role->roletype_id == $roletype->id)
-                                                        <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>
+                                                        <?php
+                                                            $checkRoleExit = false;
+                                                            foreach ($userRoleIds as $roleId){
+                                                                if($role->id == $roleId){
+                                                                    $checkRoleExit = true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        ?>
+                                                        <option value="{{$role->id}}" @if($checkRoleExit) selected @endif>{{$role->name}}</option>
                                                     @endif
                                                 @endforeach
                                             </optgroup>
                                         @endforeach
-
                                     </select>
                                 </div>
                             </div>
