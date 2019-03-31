@@ -37,7 +37,8 @@ class Header extends Component {
     }
 
     render() {
-        let { userInfo, messageNews, messageNewCount } = this.props;
+        let { messageNews, messageNewCount } = this.props;
+        let userInfo = Utils.getLogin();
         let messagesHtml = <li>No messages.</li>;
         if (messageNews && messageNews.length > 0) {
             messagesHtml = messageNews.map((item, index) => {

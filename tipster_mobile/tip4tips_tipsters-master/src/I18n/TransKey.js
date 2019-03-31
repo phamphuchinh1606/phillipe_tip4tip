@@ -2,6 +2,7 @@
 export const MENU_HOME = "menu.home";
 export const MENU_MY_LEADS = "menu.myLead";
 export const MENU_MESSAGES = "menu.message";
+export const MENU_GIFTS = "menu.gift";
 export const MENU_PROFILE = "menu.profile";
 export const MENU_LOGOUT = "menu.logOut";
 export const MENU_REFRESH = "menu.refresh";
@@ -48,6 +49,16 @@ export const USER_NOTE_UPLOAD_IMAGE = "user.noteUploadImage";
 export const USER_BACK_TO_SHOW_USER = "user.backToShowUser";
 export const USER_TITLE_SHOW = "user.titleShow";
 export const USER_TITLE_EDIT = "user.titleEdit";
+
+//Page Gift
+export const GIFTS_TITLE = "gift.title";
+export const GIFTS_NO = "gift.no";
+export const GIFTS_IMAGE = "gift.image";
+export const GIFTS_CATEGORY = "gift.category";
+export const GIFTS_NAME = "gift.giftName";
+export const GIFTS_DESCRIPTION = "gift.description";
+export const GIFTS_POINT = "gift.point";
+export const GIFTS_DETAIL = "gift.giftDetail";
 
 //Page Leads
 export const LEADS_TITLE = "leads.title";

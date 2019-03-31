@@ -11,6 +11,8 @@ import MessagesPage from './Messages/Messages.Page';
 import MessageDetailPage from './Messages/MessageDetail.Page';
 import UserShowPage from './Users/UserShow.Page';
 import UserEditPage from './Users/UserEdit.Page';
+import GiftListPage from './Gifts/GiftList.Page';
+import GiftDetailPage from './Gifts/GiftDetail.Page';
 import NotFound from './NotFound.Page';
 
 const routers = [
@@ -70,6 +72,16 @@ const routers = [
 		exact: true,
 		main: ({history,match}) => <UserEditPage history = {history} match = {match}/>
 	},
+    {
+        path: '/gifts',
+        exact: true,
+        main: () => <GiftListPage />
+    },
+    {
+        path: '/gifts/show/:id',
+        exact: true,
+        main: ({history,match}) => <GiftDetailPage history = {history} match = {match}/>
+    },
 	{
 		path: '',
 		exact: false,

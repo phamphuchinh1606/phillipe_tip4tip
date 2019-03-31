@@ -69,6 +69,10 @@ class Menu extends Component {
                                 <small className="label pull-right bg-green">{this.props.messageNewCount}</small>
                             </span>
                         </MenuLink>
+                        <MenuLink to="/gifts" exact onClick={() => this._clickMenuItem('menu-gifts')} className="menu-gifts">
+                            <i className="fa fa-gift"></i>
+                            <span>{i18n.t(transKey.MENU_GIFTS)}</span>
+                        </MenuLink>
                     </ul>
                     {/* /.sidebar-menu */}
                 </section>

@@ -1,5 +1,5 @@
-// export const URL_PAGE = "http://tip4tips-uat.amagumolabs.io/admin/api/";
-export const URL_PAGE = "http://localhost:8000/api/";
+export const URL_PAGE = "https://tip4tips.com/admin/api/";
+// export const URL_PAGE = "http://localhost:8000/api/";
 //Login
 export const END_POINT_LOGIN = "login";
 
@@ -29,3 +29,7 @@ export const END_POINT_MESSAGE_DETAIL = "message-detail";
 //user
 export const END_POINT_USER_SHOW = "user/show";
 export const END_POINT_USER_UPDATE = "user/edit";
+
+//gift
+export const END_POINT_GIFT_LIST = "gifts-list";
+export const END_POINT_GIFT_DETAIL = "gifts";

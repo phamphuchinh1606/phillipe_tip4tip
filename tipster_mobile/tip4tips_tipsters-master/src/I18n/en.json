@@ -3,6 +3,7 @@
     "home" : "HOME",
     "myLead" : "MY LEADS",
     "message" : "MESSAGES",
+    "gift" : "GIFTS",
     "profile" : "Profile",
     "logOut" : "Sign out",
     "refresh" : "Refresh",
@@ -23,7 +24,8 @@
       "call" : "Call",
       "quote" : "Quote",
       "win" : "Win",
-      "lost" : "Lost"
+      "lost" : "Lost",
+      "assign" : "Assign"
     }
   },
   "menuPartner" : {
@@ -49,6 +51,16 @@
     "backToShowUser": "Back to show user",
     "titleShow" : "Tipster detail",
     "titleEdit" : "Edit Tipster"
+  },
+  "gift" : {
+    "title" : "My Gifts",
+    "no" : "No",
+    "image" : "Image",
+    "category": "Category",
+    "giftName" : "Gift Name",
+    "description" : "Description",
+    "point" : "Points",
+    "giftDetail" : "Gift Detail"
   },
   "leads" : {
     "title" : "My Leads",
@@ -101,7 +113,7 @@
     "delete" : "Delete",
     "close" : "Close",
     "noRecord" : "No matching records found",
-    "allStatus" : "Trạng thái",
-    "allProduct" : "Sản phẩm"
+    "allStatus" : "All Status",
+    "allProduct" : "All Product"
   }
 }

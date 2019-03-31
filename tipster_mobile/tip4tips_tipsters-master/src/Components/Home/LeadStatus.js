@@ -21,11 +21,11 @@ export default class LeadStatus extends Component {
 
     render() {
         let {statusLead, products} = this.props;
-        let dataView = [0, 0, 0];
+        let dataView = [0, 0, 0, 0, 0, 0];
         let backgroundColor = [ '#FF6384','#36A2EB','#FFCE56'];
         if(statusLead){
-            dataView = [statusLead.new, statusLead.call, statusLead.quote, statusLead.win, statusLead.lost];
-            backgroundColor = [statusLead.colorNew, statusLead.colorCall, statusLead.colorQuote, statusLead.colorWin, statusLead.colorLost];
+            dataView = [statusLead.new, statusLead.assign, statusLead.call, statusLead.quote, statusLead.win, statusLead.lost];
+            backgroundColor = [statusLead.colorNew,statusLead.colorAssign,statusLead.colorCall, statusLead.colorQuote, statusLead.colorWin, statusLead.colorLost];
         }
         let statusNewName = i18n.t(transKey.HOME_LEAD_STATUS_NEW);
         let statusCallName = i18n.t(transKey.HOME_LEAD_STATUS_CALL);
@@ -34,9 +34,10 @@ export default class LeadStatus extends Component {
         let statusLostName = i18n.t(transKey.HOME_LEAD_STATUS_LOST);
         let statusAssignName = i18n.t(transKey.HOME_LEAD_STATUS_ASSIGN);
 
-        let labelsTitle = [ statusNewName, statusCallName, statusQuoteName, statusWinName, statusLostName];
+        let labelsTitle = [ statusNewName, statusAssignName,statusCallName, statusQuoteName, statusWinName, statusLostName];
+        console.log(statusLead);
         if(statusLead){
-            labelsTitle = [statusLead.newPersen + "% "+statusNewName,statusLead.callPersen + "% "+statusCallName,statusLead.quotePersen + "% "+statusQuoteName, statusLead.winPersen + "% "+statusWinName,
+            labelsTitle = [statusLead.newPersen + "% "+statusNewName, statusLead.assignPersen + "% " + statusAssignName ,statusLead.callPersen + "% "+statusCallName,statusLead.quotePersen + "% "+statusQuoteName, statusLead.winPersen + "% "+statusWinName,
                 statusLead.lostPersen + "% "+statusLostName];
         }
         let data = {
@@ -51,7 +52,7 @@ export default class LeadStatus extends Component {
         if(this.props.isConnection){
             fillterProduct = <div className="form-group pull-right product">
                                 <select name="productId" className="form-control" onChange={this._onChangeProduct}>
-                                    <option value="" disabled="">All Product</option>
+                                    <option value="" disabled="">{i18n.t(transKey.COMMON_ALL_PRODUCT)}</option>
                                     {
                                         products.map((item, index) => {
                                             return (

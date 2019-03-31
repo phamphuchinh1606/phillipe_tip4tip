@@ -9,11 +9,12 @@ export const checkLogin = () => {
         return false;
     } else {
         let userInfo = JSON.parse(userInfoRoot);
+        console.log(userInfo);
         if(userInfo.preferredLang){
             i18n.changeLanguage(userInfo.preferredLang);
         }else{
-            // localStorage.rmoveItem("userInfo");
-            // return false;
+            localStorage.removeItem("userInfo");
+            return false;
         }
 
         if (!userInfo.loginState) {

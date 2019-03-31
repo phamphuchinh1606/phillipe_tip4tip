@@ -3,6 +3,7 @@
     "home" : "Trang Chủ",
     "myLead" : "Danh Sách Lead",
     "message" : "Tin Nhắn",
+    "gift" : "Quà tặng",
     "profile" : "Hồ Sơ",
     "logOut" : "Đăng Xuất",
     "refresh" : "Load Lại",
@@ -50,6 +51,16 @@
     "backToShowUser": "Quay lại trang hiển thị",
     "titleShow" : "Chi tiết Tipster",
     "titleEdit" : "Chỉnh sửa Tipster"
+  },
+  "gift" : {
+    "title" : "Danh sách quà tặng",
+    "no" : "STT",
+    "image" : "Hình Ảnh",
+    "category": "Hạng Mục",
+    "giftName" : "Tên quà tặng",
+    "description" : "Mô tả",
+    "point" : "Điểm",
+    "giftDetail" : "Chi tiết quà tặng"
   },
   "leads" : {
     "title" : "Danh sách Lead",
@@ -103,6 +114,6 @@
     "close" : "Đóng",
     "noRecord" : "Không tìm thấy dữ liệu phù hợp",
     "allStatus" : "Trạng thái",
-    "allProduct" : "Sản phẩm"
+    "allProduct" : "Tất cả sản phẩm"
   }
 }

@@ -456,6 +456,49 @@ export const userUpdateFailed = (error) => {
     }
 }
 
+//Gift
+export const giftFetchList = (tipsterId) =>{
+    return {
+        type : actionType.GIFT_FETCH_LIST,
+        tipsterId : tipsterId
+    }
+}
+
+export const giftFetchListSuccess = (gifts) => {
+    return {
+        type : actionType.GIFT_FETCH_LIST_SUCCESS,
+        gifts : gifts
+    }
+}
+
+export const giftFetchListFailed = (gifts) => {
+    return {
+        type : actionType.GIFT_FETCH_LIST_FAILED,
+        gifts : gifts
+    }
+}
+
+export const giftFetchGiftDetail = (giftId) =>{
+    return {
+        type : actionType.GIFT_FETCH_DETAIL,
+        giftId : giftId
+    }
+}
+
+export const giftFetchGiftDetailSuccess = (gift) =>{
+    return {
+        type : actionType.GIFT_FETCH_DETAIL_SUCCESS,
+        gift : gift
+    }
+}
+
+export const giftFetchGiftDetailFailed = (error) =>{
+    return {
+        type : actionType.GIFT_FETCH_DETAIL_FAILED,
+        error : error
+    }
+}
+
 //Network
 export const networkSet = (isConnection)=>{
     return{

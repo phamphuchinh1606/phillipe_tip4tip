@@ -4,6 +4,7 @@ import leadReducer from './LeadReducer';
 import loaddingReducer from './LoaddingReducer';
 import messageReducer from './MessageReducer';
 import userReducer from './UserReducer';
+import giftReducer from './GiftReducer';
 import networkReducer from './NetWorkReducer';
 
 const allReducers = combineReducers({
@@ -12,6 +13,7 @@ const allReducers = combineReducers({
     loaddingReducer,
     messageReducer,
     userReducer,
+    giftReducer,
     networkReducer
 });
 export default allReducers;

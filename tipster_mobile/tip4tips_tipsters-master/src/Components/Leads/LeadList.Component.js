@@ -11,7 +11,8 @@ import * as transKey from "../../I18n/TransKey";
 import  Select  from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import "./css/LeadList.css"
+import "./css/LeadList.css";
+import Moment from 'moment';
 
 const customStyles = {
     content: {
@@ -72,6 +73,7 @@ export default class LeadListComponent extends Component {
         super(props);
         let today = new Date(),
         date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+        let startDayOfMonth = Moment(today).startOf('month').format('DD/MM/YYYY');
         this.state = {
             modalIsOpen: false,
             leadsSync: [],
@@ -85,7 +87,7 @@ export default class LeadListComponent extends Component {
             productId : '',
             statusId : '',
             selectedStatusOption: [],
-            fromDate : date,
+            fromDate : startDayOfMonth,
             toDate : date
         };
         this.openSync = this.openSync.bind(this);
@@ -120,7 +122,6 @@ export default class LeadListComponent extends Component {
                                 if (res.data) {
                                     if (res.data.status == "0") {
                                         LocalStorageAction.setLeadSync(leads[index]);
-                                        console.log("thanh cong");
                                     }
                                 }
                                 this.setState({ recordSynchronized: this.state.recordSynchronized + 1 });
@@ -150,7 +151,12 @@ export default class LeadListComponent extends Component {
         let userInfo = Utils.getLogin();
         onLoginSuccess(Utils.getLogin());
         if (userInfo) {
-            leadFetch(userInfo.userId,'','');
+            let strFromDate = Moment(this.state.fromDate, 'DD/MM/YYYY').format("YYYY-MM-DD");
+            let strToDate = Moment(this.state.toDate, 'DD/MM/YYYY').format("YYYY-MM-DD");
+            let listStatusId = this.state.selectedStatusOption.map((item) => {
+                return item.value;
+            });
+            leadFetch(userInfo.userId,'','',listStatusId,strFromDate,strToDate);
             onFetchTipsters(userInfo.userId);
             this.state.userId = userInfo.userId;
         }
@@ -165,7 +171,9 @@ export default class LeadListComponent extends Component {
 
     fetchLead = (productId, statusId, listStatusId, fromDate, toDate) =>{
         let {leadFetch} = this.props;
-        leadFetch(this.state.userId, productId, statusId, listStatusId, fromDate, toDate);
+        let strFromDate = Moment(fromDate, 'DD/MM/YYYY').format("YYYY-MM-DD");
+        let strToDate = Moment(toDate, 'DD/MM/YYYY').format("YYYY-MM-DD");
+        leadFetch(this.state.userId, productId, statusId, listStatusId, strFromDate, strToDate);
     }
 
     _onClickSortDate = () =>{

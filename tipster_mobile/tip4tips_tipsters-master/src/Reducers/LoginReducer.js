@@ -13,7 +13,6 @@ const INITIAL_STATE = {
 
 var LoginReducer = (state = INITIAL_STATE, action) => {
     return state;
-    console.log('chinh');
     let stateCopy = { ...state };
     switch (action.type) {
         case LOG_OUT:

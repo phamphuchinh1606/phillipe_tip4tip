@@ -32,8 +32,9 @@ export default class Container extends Component {
 
         switch (fieldName) {
             case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+                // emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                // fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+                emailValid = true;
                 break;
             case 'password':
                 // passwordValid = value.length >= 6;
@@ -78,6 +79,7 @@ export default class Container extends Component {
 
     render() {
         let {loginError} = this.props;
+        console.log(loginError);
         let headerStatusLogin = [];
         if(loginError){
             console.log(loginError);
@@ -98,8 +100,8 @@ export default class Container extends Component {
                                 <form className="login__form" onSubmit={this.onSubmit}>
 
                                     <div className="form-group">
-                                        <label htmlFor="email">E-Mail Address</label>
-                                        <input id="email" type="email" className={`form-control ${this.errorClass(this.state.formErrors.email)}`} name="email" required
+                                        <label htmlFor="email">User Name Or E-Mail Address</label>
+                                        <input id="email" type="text" className={`form-control ${this.errorClass(this.state.formErrors.email)}`} name="email" required
                                             value={this.state.email} placeholder="Email" onChange={this.handleUserInput} />
                                     </div>
                                     <div className="form-group">
@@ -110,22 +112,22 @@ export default class Container extends Component {
                                               className={this.state.eyesIcon}></span>
 
                                     </div>
-                                    <div className="form-group">
-                                        <div className="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="remember" value={this.state.remember} onChange={this.handleUserInput} /> Remember Me
-                                            </label>
-                                        </div>
-                                    </div>
+                                    {/*<div className="form-group">*/}
+                                        {/*<div className="checkbox">*/}
+                                            {/*<label>*/}
+                                                {/*<input type="checkbox" name="remember" value={this.state.remember} onChange={this.handleUserInput} /> Remember Me*/}
+                                            {/*</label>*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
                                     <div className="form-group">
                                         <button type="submit" className="btn btn-primary">
                                             Login
                                         </button>
-                                        <p className="text-right">
-                                            <a className="btn btn-link btn-forget">
-                                                Forgot Your Password?
-                                            </a>
-                                        </p>
+                                        {/*<p className="text-right">*/}
+                                            {/*<a className="btn btn-link btn-forget">*/}
+                                                {/*Forgot Your Password?*/}
+                                            {/*</a>*/}
+                                        {/*</p>*/}
                                     </div>
                                 </form>
                                 <FormErrors formErrors={this.state.formErrors}/>
