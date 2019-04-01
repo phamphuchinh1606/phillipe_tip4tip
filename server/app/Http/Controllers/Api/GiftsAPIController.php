@@ -18,12 +18,13 @@ class GiftsAPIController extends Controller
         return $gifts;
     }
 
-    public function listGift($tipsterId){
+    public function listGift($tipsterId, Request $request){
         $gifts = [];
         $tipster = User::find($tipsterId);
+        $filterPoint = $request->filter_point;
         if(isset($tipster)){
             $pathImage = asset(Utils::$PATH__IMAGE);
-            $gifts = Gift::getGiftBuyAble($tipster->point);
+            $gifts = Gift::getGiftBuyAble($tipster->point,$filterPoint);
             foreach ($gifts as $gift) {
                 $gift->path_image = $pathImage;
             }

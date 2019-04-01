@@ -24,11 +24,13 @@ class Gift extends Model
         return $gifts;
     }
 
-    public static function getGiftBuyAble($point){
-        $gifts = Gift::leftjoin('giftcategories','giftcategories.id','gifts.category_id')
-            ->where('gifts.delete_is',0)
-            ->where('gifts.point', '<=' ,$point)
-            ->orderBy('category_id')
+    public static function getGiftBuyAble($point, $filterPoint = null){
+        $query = Gift::leftjoin('giftcategories','giftcategories.id','gifts.category_id')
+            ->where('gifts.delete_is',0);
+        if(isset($filterPoint)){
+            $query->where('gifts.point', '<=' ,$point);
+        }
+        $gifts = $query->orderBy('category_id')
             ->select('gifts.*','giftcategories.name as category_name')
             ->get();
         return $gifts;
