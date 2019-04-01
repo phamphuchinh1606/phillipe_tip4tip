@@ -1,9 +1,9 @@
 import * as URL from '../../API/URL';
 import apiCaller from '../../API/apiCaller';
 
-export function* fetchGift(tipsterId) {
+export function* fetchGift(tipsterId, filterPoint) {
     let gifts = {};
-    let urlEndPoint = URL.END_POINT_GIFT_LIST + "/" + tipsterId;
+    let urlEndPoint = URL.END_POINT_GIFT_LIST + "/" + tipsterId+ "?filter_point="+filterPoint;
     yield apiCaller(urlEndPoint, "GET", null).then(res => {
         if (res.data) {
             gifts = res.data;

@@ -59,6 +59,8 @@ export const GIFTS_NAME = "gift.giftName";
 export const GIFTS_DESCRIPTION = "gift.description";
 export const GIFTS_POINT = "gift.point";
 export const GIFTS_DETAIL = "gift.giftDetail";
+export const GIFTS_ALL_GIFT = "gift.allGift";
+export const GIFTS_CAN_GET = "gift.canGet";
 
 //Page Leads
 export const LEADS_TITLE = "leads.title";

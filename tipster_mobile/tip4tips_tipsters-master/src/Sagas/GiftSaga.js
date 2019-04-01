@@ -21,8 +21,8 @@ function* giftFetch(action) {
             // let messageAllCount = 0;
             // yield put(actionFunction.messageAllFetchSuccess(messageAll, messageAllCount));
         } else {
-            let { tipsterId } = action;
-            let data = yield giftService.fetchGift(tipsterId);
+            let { tipsterId, filterPoint } = action;
+            let data = yield giftService.fetchGift(tipsterId,filterPoint);
             let gifts = [];
             if (data.gifts) {
                 gifts = data.gifts;

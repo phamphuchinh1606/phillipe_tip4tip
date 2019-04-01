@@ -60,7 +60,9 @@
     "giftName" : "Gift Name",
     "description" : "Description",
     "point" : "Points",
-    "giftDetail" : "Gift Detail"
+    "giftDetail" : "Gift Detail",
+    "allGift" : "All gifts",
+    "canGet" : "Gifts I can get"
   },
   "leads" : {
     "title" : "My Leads",

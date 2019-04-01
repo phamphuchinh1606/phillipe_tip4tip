@@ -60,7 +60,9 @@
     "giftName" : "Tên quà tặng",
     "description" : "Mô tả",
     "point" : "Điểm",
-    "giftDetail" : "Chi tiết quà tặng"
+    "giftDetail" : "Chi tiết quà tặng",
+    "allGift" : "Tất cả quà tặng",
+    "canGet" : "Quà tặng có thể mua"
   },
   "leads" : {
     "title" : "Danh sách Lead",

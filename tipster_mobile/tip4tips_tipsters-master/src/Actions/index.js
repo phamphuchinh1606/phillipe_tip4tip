@@ -457,10 +457,11 @@ export const userUpdateFailed = (error) => {
 }
 
 //Gift
-export const giftFetchList = (tipsterId) =>{
+export const giftFetchList = (tipsterId, filterPoint) =>{
     return {
         type : actionType.GIFT_FETCH_LIST,
-        tipsterId : tipsterId
+        tipsterId : tipsterId,
+        filterPoint: filterPoint
     }
 }
 

@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        onFetchGiftList : (tipsterId) => {
-            dispatch(action.giftFetchList(tipsterId));
+        onFetchGiftList : (tipsterId, filterPoint) => {
+            dispatch(action.giftFetchList(tipsterId, filterPoint));
         },
         // fetchLeadDetail: (leadId)=>{
         //     dispatch(action.leadDetailFetch(leadId));

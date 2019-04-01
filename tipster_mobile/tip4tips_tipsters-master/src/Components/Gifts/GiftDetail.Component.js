@@ -3,10 +3,14 @@ import { Link, Redirect } from 'react-router-dom';
 import * as Utils from '../../Commons/Utils';
 import i18n from "../../I18n";
 import * as transKey from "../../I18n/TransKey";
+import queryString from 'query-string';
 
 export default class GiftDetailComponent extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            filterPoint : ''
+        }
     }
 
     componentDidMount() {
@@ -15,6 +19,9 @@ export default class GiftDetailComponent extends Component {
         let userInfo = Utils.getLogin();
         onLoginSuccess(userInfo);
         fetchGiftDetail(id);
+        const values = queryString.parse(this.props.history.location.search);
+        this.state.filterPoint = values.filter_point;
+        this.setState(this.state);
     }
 
     render() {
@@ -29,7 +36,7 @@ export default class GiftDetailComponent extends Component {
                         <div className="box-header with-border">
                             <h3 className="box-title">{i18n.t(transKey.GIFTS_DETAIL)}</h3>
                             <span className="group__action pull-right">
-                                <Link to="/gifts" className="btn btn-xs btn-default">
+                                <Link to={{ pathname: `/gifts`, search: '?filter_point=' + this.state.filterPoint, }} className="btn btn-xs btn-default">
                                     <i className="fa fa-angle-left"></i> {i18n.t(transKey.COMMON_BACK)}
                                 </Link>
                             </span>

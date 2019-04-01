@@ -75,7 +75,7 @@ const routers = [
     {
         path: '/gifts',
         exact: true,
-        main: () => <GiftListPage />
+        main: ({history,match}) => <GiftListPage history = {history} match = {match}/>
     },
     {
         path: '/gifts/show/:id',
